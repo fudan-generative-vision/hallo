@@ -15,7 +15,7 @@
 </div>
 
 <div align='Center'>
-    <sup>1</sup>Fudan University <sup>2</sup>Baidu Inc <sup>3</sup>ETH Zurich <sup>4</sup>Nanjing University
+    <sup>1</sup>Fudan University&emsp; <sup>2</sup>Baidu Inc&emsp; <sup>3</sup>ETH Zurich&emsp; <sup>4</sup>Nanjing University
 </div>
 
 <br>
@@ -31,17 +31,12 @@
 
 # Showcase
 
-
-https://github.com/fudan-generative-vision/anna/assets/17402682/765562fe-35f8-4cbc-ab87-42074b5ed9c3
-
-
-# Abstract
-
-![abstract](assets/abstract.jpg)
+https://github.com/fudan-generative-vision/anna/assets/17402682/10832553-639d-44c2-9e66-862b685b23d1
 
 # Framework
 
-![framework](assets/framework.jpg)
+![abstract](assets/framework_1.jpg)
+![framework](assets/framework_2.jpg)
 
 # News
 
@@ -87,7 +82,7 @@ git clone https://huggingface.co/fudan-generative-ai/hallo pretrained_models
 Or you can download them separately from their source repo:
 
 - [hallo](https://huggingface.co/fudan-generative-ai/hallo/tree/main/hallo): Our checkpoints consist of denoising UNet, face locator, image & audio proj.
-- [audio_separator](https://huggingface.co/huangjackson/Kim_Vocal_2): Kim*Vocal_2 MDX-Net vocal removal model by [KimberleyJensen](https://github.com/KimberleyJensen). (\_Thanks to runwayml*)
+- [audio_separator](https://huggingface.co/huangjackson/Kim_Vocal_2): Kim\_Vocal\_2 MDX-Net vocal removal model by [KimberleyJensen](https://github.com/KimberleyJensen). (_Thanks to runwayml_)
 - [insightface](https://github.com/deepinsight/insightface/tree/master/python-package#model-zoo): 2D and 3D Face Analysis placed into `pretrained_models/face_analysis/models/`. (_Thanks to deepinsight_)
 - [face landmarker](https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task): Face detection & mesh model from [mediapipe](https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker#models) placed into `pretrained_models/face_analysis/models`.
 - [motion module](https://github.com/guoyww/AnimateDiff/blob/main/README.md#202309-animatediff-v2): motion module from [AnimateDiff](https://github.com/guoyww/AnimateDiff). (_Thanks to guoyww_).
