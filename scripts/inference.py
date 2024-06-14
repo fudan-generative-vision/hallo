@@ -281,8 +281,7 @@ def inference_process(args: argparse.Namespace):
     ]
 
 
-    # times = audio_emb.shape[0] // clip_length
-    times = 3
+    times = audio_emb.shape[0] // clip_length
 
     tensor_result = []
 
