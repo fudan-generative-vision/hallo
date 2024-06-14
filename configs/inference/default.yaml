@@ -1,0 +1,90 @@
+source_image: ./default.png
+driving_audio: default.wav
+
+weight_dtype: fp16
+
+data:
+  n_motion_frames: 2
+  n_sample_frames: 16
+  source_image:
+    width: 512
+    height: 512
+  driving_audio:
+    sample_rate: 16000
+  export_video:
+    fps: 25
+
+inference_steps: 40
+cfg_scale: 3.5
+
+audio_ckpt_dir: ./pretrained_models/hallo
+
+base_model_path: ./pretrained_models/stable-diffusion-v1-5
+
+motion_module_path: ./pretrained_models/motion_module/mm_sd_v15_v2.ckpt
+
+face_analysis:
+  model_path: ./pretrained_models/face_analysis
+
+wav2vec:
+  model_path: ./pretrained_models/wav2vec/wav2vec2-base-960h
+  features: all
+
+audio_separator:
+  model_path: ./pretrained_models/audio_separator/Kim_Vocal_2.onnx
+
+vae:
+  model_path: ./pretrained_models/sd-vae-ft-mse
+
+save_path: ./.cache
+
+face_expand_ratio: 1.1
+pose_weight: 1.1
+face_weight: 1.1
+lip_weight: 1.1
+
+unet_additional_kwargs:
+  use_inflated_groupnorm: true
+  unet_use_cross_frame_attention: false
+  unet_use_temporal_attention: false
+  use_motion_module: true
+  use_audio_module: true
+  motion_module_resolutions:
+    - 1
+    - 2
+    - 4
+    - 8
+  motion_module_mid_block: true
+  motion_module_decoder_only: false
+  motion_module_type: Vanilla
+  motion_module_kwargs:
+    num_attention_heads: 8
+    num_transformer_block: 1
+    attention_block_types:
+      - Temporal_Self
+      - Temporal_Self
+    temporal_position_encoding: true
+    temporal_position_encoding_max_len: 32
+    temporal_attention_dim_div: 1
+  audio_attention_dim: 768
+  stack_enable_blocks_name:
+    - "up"
+    - "down"
+    - "mid"
+  stack_enable_blocks_depth: [0,1,2,3]
+  
+
+enable_zero_snr: true
+
+noise_scheduler_kwargs:
+  beta_start: 0.00085
+  beta_end: 0.012
+  beta_schedule: "linear"
+  clip_sample: false
+  steps_offset: 1
+  ### Zero-SNR params
+  prediction_type: "v_prediction"
+  rescale_betas_zero_snr: True
+  timestep_spacing: "trailing"
+
+sampler: DDIM
