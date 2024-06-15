@@ -1,0 +1,171 @@
+[
+    {
+        "template": "title",
+        "props": {
+            "title": "Hallo",
+            "subtitle": "Hierarchical Audio-Driven Visual Synthesis for Portrait Image Animation",
+            "authors": [
+                [
+                    {
+                        "name": "Mingwang Xu",
+                        "homepage": "https://github.com/xumingw",
+                        "suffix": "1*"
+                    },
+                    {
+                        "name": "Hui Li",
+                        "homepage": "https://github.com/crystallee-ai",
+                        "suffix": "1*"
+                    },
+                    {
+                        "name": "Qingkun Su",
+                        "homepage": "https://github.com/subazinga",
+                        "suffix": "1*"
+                    },
+                    {
+                        "name": "Hanlin Shang",
+                        "homepage": "https://github.com/NinoNeumann",
+                        "suffix": "1"
+                    },
+                    {
+                        "name": "Liwei Zhang",
+                        "homepage": "https://github.com/AricGamma",
+                        "suffix": "1"
+                    },
+                    {
+                        "name": "Ce Liu",
+                        "homepage": "https://github.com/cnexah",
+                        "suffix": "3"
+                    }
+                ],
+                [
+                    {
+                        "name": "Jingdong Wang",
+                        "homepage": "https://jingdongwang2017.github.io/",
+                        "suffix": "2"
+                    },
+                    {
+                        "name": "Yao Yao",
+                        "homepage": "https://yoyo000.github.io/",
+                        "suffix": "4"
+                    },
+                    {
+                        "name": "Siyu Zhu",
+                        "homepage": "https://sites.google.com/site/zhusiyucs/home",
+                        "suffix": "1"
+                    }
+                ],
+                [
+                    {
+                        "name": "Fudan University",
+                        "homepage": "",
+                        "prefix": "1"
+                    },
+                    {
+                        "name": "Baidu Inc",
+                        "homepage": "",
+                        "prefix": "2"
+                    },
+                    {
+                        "name": "ETH Zurich",
+                        "homepage": "",
+                        "prefix": "3"
+                    },
+                    {
+                        "name": "Nanjing University",
+                        "homepage": "",
+                        "prefix": "4"
+                    }
+                ]
+            ],
+            "resources": {
+                "pdf": "https://arxiv.org/pdf/2406.08801",
+                "arxiv": "https://arxiv.org/abs/2406.08801",
+                "github": "https://github.com/fudan-generative-vision/hallo",
+                "huggingface": "https://huggingface.co/fudan-generative-ai/hallo"
+            },
+            "mainVideo": ""
+        }
+    },
+    {
+        "template": "abstract",
+        "props": {
+            "figure": "//fusion-lab.oss-cn-shanghai.aliyuncs.com/img/best_visual_results.jpg",
+            "content": "The field of portrait image animation, driven by speech audio input, has experienced significant advancements in the generation of realistic and dynamic portraits. This research delves into the complexities of synchronizing facial movements and creating visually appealing, temporally consistent animations within the framework of diffusion-based methodologies. Moving away from traditional paradigms that rely on parametric models for intermediate facial representations, our innovative approach embraces the end-to-end diffusion paradigm and introduces a hierarchical audio-driven visual synthesis module to enhance the precision of alignment between audio inputs and visual outputs, encompassing lip, expression, and pose motion. Our proposed network architecture seamlessly integrates diffusion-based generative models, a UNet-based denoiser, temporal alignment techniques, and a reference network. The proposed hierarchical audio-driven visual synthesis offers adaptive control over expression and pose diversity, enabling more effective personalization tailored to different identities. Through a comprehensive evaluation that incorporates both qualitative and quantitative analyses, our approach demonstrates obvious enhancements in image and video quality, lip synchronization precision, and motion diversity."
+        }
+    },
+    {
+        "template": "framework",
+        "props": {
+            "image": "//fusion-lab.oss-cn-shanghai.aliyuncs.com/img/framework.jpg",
+            "description": ""
+        }
+    },
+    {
+        "template": "single-video",
+        "props": {
+            "id": "vc2",
+            "title": "Virtual Character",
+            "items": [
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/portrait_style/4.mp4",
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/portrait_style/3.mp4",
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/portrait_style/1.mp4",
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/portrait_style/2.mp4",
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/portrait_style/5.mp4",
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/portrait_style/6.mp4"
+            ]
+        }
+    },
+    {
+        "template": "single-video",
+        "props": {
+            "title": "Real character",
+            "items": [
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/cross_id/2.mp4",
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/cross_id/1.mp4"
+            ]
+        }
+    },
+    {
+        "template": "single-video",
+        "props": {
+            "id": "mc1",
+            "title": "Motion Control (pose, expression, lip)",
+            "items": [
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/ablation/pose_1.mp4",
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/ablation/pose_2.mp4",
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/ablation/exp_1.mp4",
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/ablation/exp_2.mp4",
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/ablation/lip_1.mp4",
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/ablation/lip_2.mp4"
+            ]
+        }
+    },
+    {
+        "template": "video-carousel",
+        "props": {
+            "title": "Singing",
+            "items": [
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/singing/6.mp4",
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/singing/5.mp4",
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/singing/8.mp4"
+            ],
+            "count": 3
+        }
+    },
+    {
+        "template": "video-carousel",
+        "props": {
+            "title": "Cross Actor",
+            "items": [
+                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/cross_actor/1.mp4"
+            ],
+            "count": 1
+        }
+    },
+    {
+        "template": "bibtex",
+        "props": {
+            "bibTeX": "@misc{xu2024hallo,\n\ttitle={Hallo: Hierarchical Audio-Driven Visual Synthesis for Portrait Image Animation}, \n\tauthor={Mingwang Xu and Hui Li and Qingkun Su and Hanlin Shang and Liwei Zhang and Ce Liu and Jingdong Wang and Yao Yao and Siyu zhu},\n\tyear={2024},\n\teprint={2406.08801},\n\tarchivePrefix={arXiv},\n\tprimaryClass={cs.CV}\n}"
+        }
+    }
+]
