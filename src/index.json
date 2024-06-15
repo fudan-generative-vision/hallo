@@ -104,7 +104,7 @@
         "template": "video-carousel",
         "props": {
             "id": "sm1",
-            "title": "Movie Dubbing",
+            "title": "Honoring Classic Films",
             "items": [
                 "//cdn.aondata.work/video/short_movie/wujiandao-watermark-480p.mp4",
                 "//cdn.aondata.work/video/short_movie/wujiandao2-watermark-480p.mp4"
