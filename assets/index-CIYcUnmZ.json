@@ -89,14 +89,14 @@
     {
         "template": "abstract",
         "props": {
-            "figure": "//fusion-lab.oss-cn-shanghai.aliyuncs.com/img/best_visual_results.jpg",
+            "figure": "//cdn.aondata.work/img/best_visual_results.jpg",
             "content": "The field of portrait image animation, driven by speech audio input, has experienced significant advancements in the generation of realistic and dynamic portraits. This research delves into the complexities of synchronizing facial movements and creating visually appealing, temporally consistent animations within the framework of diffusion-based methodologies. Moving away from traditional paradigms that rely on parametric models for intermediate facial representations, our innovative approach embraces the end-to-end diffusion paradigm and introduces a hierarchical audio-driven visual synthesis module to enhance the precision of alignment between audio inputs and visual outputs, encompassing lip, expression, and pose motion. Our proposed network architecture seamlessly integrates diffusion-based generative models, a UNet-based denoiser, temporal alignment techniques, and a reference network. The proposed hierarchical audio-driven visual synthesis offers adaptive control over expression and pose diversity, enabling more effective personalization tailored to different identities. Through a comprehensive evaluation that incorporates both qualitative and quantitative analyses, our approach demonstrates obvious enhancements in image and video quality, lip synchronization precision, and motion diversity."
         }
     },
     {
         "template": "framework",
         "props": {
-            "image": "//fusion-lab.oss-cn-shanghai.aliyuncs.com/img/framework.jpg",
+            "image": "//cdn.aondata.work/img/framework.jpg",
             "description": ""
         }
     },
@@ -106,12 +106,12 @@
             "id": "vc2",
             "title": "Virtual Character",
             "items": [
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/portrait_style/4.mp4",
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/portrait_style/3.mp4",
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/portrait_style/1.mp4",
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/portrait_style/2.mp4",
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/portrait_style/5.mp4",
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/portrait_style/6.mp4"
+                "//cdn.aondata.work/video/portrait_style/4.mp4",
+                "//cdn.aondata.work/video/portrait_style/3.mp4",
+                "//cdn.aondata.work/video/portrait_style/1.mp4",
+                "//cdn.aondata.work/video/portrait_style/2.mp4",
+                "//cdn.aondata.work/video/portrait_style/5.mp4",
+                "//cdn.aondata.work/video/portrait_style/6.mp4"
             ]
         }
     },
@@ -120,8 +120,8 @@
         "props": {
             "title": "Real character",
             "items": [
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/cross_id/2.mp4",
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/cross_id/1.mp4"
+                "//cdn.aondata.work/video/cross_id/2.mp4",
+                "//cdn.aondata.work/video/cross_id/1.mp4"
             ]
         }
     },
@@ -131,12 +131,12 @@
             "id": "mc1",
             "title": "Motion Control (pose, expression, lip)",
             "items": [
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/ablation/pose_1.mp4",
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/ablation/pose_2.mp4",
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/ablation/exp_1.mp4",
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/ablation/exp_2.mp4",
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/ablation/lip_1.mp4",
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/ablation/lip_2.mp4"
+                "//cdn.aondata.work/video/ablation/pose_1.mp4",
+                "//cdn.aondata.work/video/ablation/pose_2.mp4",
+                "//cdn.aondata.work/video/ablation/exp_1.mp4",
+                "//cdn.aondata.work/video/ablation/exp_2.mp4",
+                "//cdn.aondata.work/video/ablation/lip_1.mp4",
+                "//cdn.aondata.work/video/ablation/lip_2.mp4"
             ]
         }
     },
@@ -145,9 +145,9 @@
         "props": {
             "title": "Singing",
             "items": [
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/singing/6.mp4",
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/singing/5.mp4",
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/singing/8.mp4"
+                "//cdn.aondata.work/video/singing/6.mp4",
+                "//cdn.aondata.work/video/singing/5.mp4",
+                "//cdn.aondata.work/video/singing/8.mp4"
             ],
             "count": 3
         }
@@ -157,7 +157,7 @@
         "props": {
             "title": "Cross Actor",
             "items": [
-                "//fusion-lab.oss-cn-shanghai.aliyuncs.com/video/cross_actor/1.mp4"
+                "//cdn.aondata.work/video/cross_actor/1.mp4"
             ],
             "count": 1
         }
