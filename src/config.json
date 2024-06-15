@@ -1,0 +1,46 @@
+{
+  "title": {
+    "title": "Champ",
+    "subtitle": "Controllable and Consistent Human Image Animation with 3D Parametric Guidance"
+  },
+  "authors": [
+    {
+      "name": "Shenhao Zhu*",
+      "homepage": "https://github.com/ShenhaoZhu"
+    },
+    {
+      "name": "Junming Leo Chen*",
+      "homepage": "https://github.com/Leoooo333"
+    },
+    {
+      "name": "Zuozhuo Dai",
+      "homepage": "https://github.com/daizuozhuo"
+    },
+    {
+      "name": "Yinghui Xu",
+      "homepage": "https://ai3.fudan.edu.cn/info/1088/1266.htm"
+    },
+    {
+      "name": "Xun Cao",
+      "homepage": "https://cite.nju.edu.cn/People/Faculty/20190621/i5054.html"
+    },
+    {
+      "name": "Yao Yao",
+      "homepage": "https://yoyo000.github.io/"
+    },
+    {
+      "name": "Hao Zhu",
+      "homepage": "http://zhuhao.cc/home/"
+    },
+    {
+      "name": "Siyu Zhu",
+      "homepage": "https://sites.google.com/site/zhusiyucs/home"
+    }
+  ],
+  "res": {
+    "pdf": "https://arxiv.org/pdf/2403.14781",
+    "arxiv": "https://arxiv.org/abs/2403.14781",
+    "github": "https://github.com/fudan-generative-vision/champ",
+    "huggingface": ""
+  }
+}

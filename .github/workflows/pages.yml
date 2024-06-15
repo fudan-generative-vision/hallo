@@ -1,0 +1,35 @@
+name: deploy pages
+
+on:
+  push:
+    branches: ['gh-pages-source']
+  pull_request:
+    branches: ['gh-pages-source']
+permissions:
+  contents: write
+  pages: write
+jobs:
+  build-and-deploy:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
+        run: |
+          env
+          npm install pnpm -g
+          pnpm i
+          pnpm run build --base=/${REPO}
+        env:
+          # TODO: change repo name
+          REPO: hallo
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist
+          # TODO: change repo name
+          repositorty-name: fudan-generative-vision/hallo
+          target-folder: /

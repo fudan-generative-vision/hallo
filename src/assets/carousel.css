@@ -1,0 +1,15 @@
+.indicator {
+  @apply mx-[3px] box-content h-[3px] w-[30px] flex-initial cursor-pointer border-0 border-y-[10px] border-solid border-transparent bg-gray-500 dark:bg-white bg-clip-padding p-0 -indent-[999px] opacity-50 transition-opacity duration-[600ms] ease-in-out motion-reduce:transition-none;
+}
+
+.indicator-btn {
+  @apply absolute bottom-0 top-0 z-[1] flex items-center justify-center border-0 bg-none p-0 text-center dark:text-white opacity-50 transition-opacity duration-150 ease-in-out dark:hover:text-white hover:no-underline hover:opacity-90 hover:outline-none dark:focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none;
+}
+
+.indicator-left-btn {
+  @apply md:-left-24 -left-8;
+}
+
+.indicator-right-btn {
+  @apply md:-right-24 -right-10;
+}

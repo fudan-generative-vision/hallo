@@ -1,0 +1,68 @@
+@import './base.css';
+@import './icon.css';
+
+@tailwind base;
+@layer base {
+  html {
+    @apply text-surface;
+    @apply bg-white;
+  }
+  html.dark {
+    @apply text-neutral-50;
+    @apply bg-body-dark;
+  }
+}
+@tailwind components;
+@tailwind utilities;
+p {
+  @apply leading-[1.6];
+}
+
+#app {
+  margin: 0 auto;
+  font-weight: normal;
+}
+
+a,
+.green {
+  @apply text-blue-500;
+  text-decoration: none;
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    @apply text-blue-600;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    /* place-items: center; */
+  }
+
+  #app {
+    display: block;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.button {
+  @apply inline-block;
+  @apply px-3 py-1 rounded-lg cursor-pointer;
+  @apply bg-gray-800 text-gray-400;
+  @apply transition-all duration-300;
+  @apply select-none;
+
+  &:hover {
+    @apply bg-gray-600 text-gray-100;
+  }
+
+  &:active {
+    @apply scale-95;
+  }
+}
