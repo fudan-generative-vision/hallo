@@ -43,6 +43,7 @@ https://github.com/fudan-generative-vision/hallo/assets/17402682/c0952394-de64-4
 # News
 
 - **`2024/06/15`**: 🎉🎉🎉 Release the first version on [GitHub](https://github.com/fudan-generative-vision/hallo).
+- **`2024/06/15`**: ✨✨✨ Release some images and audios for inference testing on [Huggingface](https://huggingface.co/datasets/fudan-generative-ai/hallo_inference_samples).
 
 # Installation
 
