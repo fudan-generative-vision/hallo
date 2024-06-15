@@ -179,7 +179,8 @@ def inference_process(args: argparse.Namespace):
         wav2vec_only_last_features,
         os.path.dirname(audio_separator_model_file),
         os.path.basename(audio_separator_model_file),
-        os.path.join(save_path, "audio_preprocess")
+        os.path.join(save_path, "audio_preprocess"),
+        device=device
     ) as audio_processor:
         audio_emb = audio_processor.preprocess(driving_audio_path)
 
