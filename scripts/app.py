@@ -10,6 +10,8 @@ def predict(image, audio, pose_weight, face_weight, lip_weight, face_expand_rati
   args.lip_weight=lip_weight
   args.face_expand_ratio=face_expand_ratio
   args.config = "configs/inference/default.yaml"
+  args.checkpoint = None
+  args.output = None
   return inference_process(args)
 app = gr.Interface(
     fn=predict,
