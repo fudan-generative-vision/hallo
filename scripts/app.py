@@ -1,14 +1,15 @@
 from inference import inference_process
+import argparse
 import gradio as gr
 def predict(image, audio, pose_weight, face_weight, lip_weight, face_expand_ratio):
-  return inference_process(
-    source_image=image, 
-    driving_audio=audio,
-    pose_weight=pose_weight,
-    face_weight=face_weight,
-    lip_weight=lip_weight,
-    face_expand_ratio=face_expand_ratio
-  )
+  args = argparse.Namespace()
+  args.source_image=image
+  args.driving_audio=audio
+  args.pose_weight=pose_weight
+  args.face_weight=face_weight
+  args.lip_weight=lip_weight
+  args.face_expand_ratio=face_expand_ratio
+  return inference_process(args)
 app = gr.Interface(
     fn=predict,
     inputs=[
