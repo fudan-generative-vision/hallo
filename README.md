@@ -64,6 +64,8 @@ Install packages with `pip`
   pip install .
 ```
 
+In addition, you need to have [ffmpeg](https://ffmpeg.org/) included in your PATH environment variable.
+
 # Inference
 
 The inference entrypoint script is `scripts/inference.py`. Before testing your cases, there are two preparations need to be completed:
