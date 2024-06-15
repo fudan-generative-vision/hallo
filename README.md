@@ -63,6 +63,11 @@ Install packages with `pip`
   pip install .
 ```
 
+Besides, ffmpeg is also need:
+```bash
+  apt-get install ffmpeg
+```
+
 # Inference
 
 The inference entrypoint script is `scripts/inference.py`. Before testing your cases, there are two preparations need to be completed:
@@ -110,7 +115,6 @@ Finally, these pretrained models should be organized as follows:
 |   `-- mm_sd_v15_v2.ckpt
 |-- sd-vae-ft-mse/
 |   |-- config.json
-|   |-- diffusion_pytorch_model.bin
 |   `-- diffusion_pytorch_model.safetensors
 |-- stable-diffusion-v1-5/
 |   |-- feature_extractor/
@@ -118,7 +122,7 @@ Finally, these pretrained models should be organized as follows:
 |   |-- model_index.json
 |   |-- unet/
 |   |   |-- config.json
-|   |   `-- diffusion_pytorch_model.bin
+|   |   `-- diffusion_pytorch_model.safetensors
 |   `-- v1-inference.yaml
 `-- wav2vec/
     |-- wav2vec2-base-960h/
@@ -126,13 +130,9 @@ Finally, these pretrained models should be organized as follows:
     |   |-- feature_extractor_config.json
     |   |-- model.safetensors
     |   |-- preprocessor_config.json
-    |   |-- pytorch_model.bin
     |   |-- special_tokens_map.json
-    |   |-- tf_model.h5
     |   |-- tokenizer_config.json
     |   `-- vocab.json
-    `-- wav2vec2-large-960h/
-        `-- ...
 ```
 
 ## Run inference
