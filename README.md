@@ -31,7 +31,9 @@
 
 # Showcase
 
-https://github.com/fudan-generative-vision/anna/assets/17402682/10832553-639d-44c2-9e66-862b685b23d1
+
+https://github.com/fudan-generative-vision/hallo/assets/17402682/c0952394-de64-42a9-a76d-de1e4bf67124
+
 
 # Framework
 
