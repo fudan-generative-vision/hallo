@@ -12,8 +12,8 @@ def predict(image, audio, pose_weight, face_weight, lip_weight, face_expand_rati
 app = gr.Interface(
     fn=predict,
     inputs=[
-      gr.Image,
-      gr.Audio,
+      gr.Image(type="filepath"),
+      gr.Audio(type="filepath"),
       gr.Number(label="pose weight", value=1.0),
       gr.Number(label="face weight", value=1.0),
       gr.Number(label="lip weight", value=1.0),
