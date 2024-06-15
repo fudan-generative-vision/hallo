@@ -32,7 +32,7 @@
 # Showcase
 
 
-https://github.com/fudan-generative-vision/hallo/assets/17402682/c0952394-de64-42a9-a76d-de1e4bf67124
+https://github.com/fudan-generative-vision/hallo/assets/17402682/294e78ef-c60d-4c32-8e3c-7f8d6934c6bd
 
 
 # Framework
@@ -64,7 +64,10 @@ Install packages with `pip`
   pip install .
 ```
 
-In addition, you need to have [ffmpeg](https://ffmpeg.org/) included in your PATH environment variable.
+Besides, ffmpeg is also need:
+```bash
+  apt-get install ffmpeg
+```
 
 # Inference
 
@@ -113,7 +116,6 @@ Finally, these pretrained models should be organized as follows:
 |   `-- mm_sd_v15_v2.ckpt
 |-- sd-vae-ft-mse/
 |   |-- config.json
-|   |-- diffusion_pytorch_model.bin
 |   `-- diffusion_pytorch_model.safetensors
 |-- stable-diffusion-v1-5/
 |   |-- feature_extractor/
@@ -121,7 +123,7 @@ Finally, these pretrained models should be organized as follows:
 |   |-- model_index.json
 |   |-- unet/
 |   |   |-- config.json
-|   |   `-- diffusion_pytorch_model.bin
+|   |   `-- diffusion_pytorch_model.safetensors
 |   `-- v1-inference.yaml
 `-- wav2vec/
     |-- wav2vec2-base-960h/
@@ -129,13 +131,9 @@ Finally, these pretrained models should be organized as follows:
     |   |-- feature_extractor_config.json
     |   |-- model.safetensors
     |   |-- preprocessor_config.json
-    |   |-- pytorch_model.bin
     |   |-- special_tokens_map.json
-    |   |-- tf_model.h5
     |   |-- tokenizer_config.json
     |   `-- vocab.json
-    `-- wav2vec2-large-960h/
-        `-- ...
 ```
 
 ## Run inference
