@@ -32,7 +32,7 @@
 # Showcase
 
 
-https://github.com/fudan-generative-vision/hallo/assets/17402682/c0952394-de64-42a9-a76d-de1e4bf67124
+https://github.com/fudan-generative-vision/hallo/assets/17402682/294e78ef-c60d-4c32-8e3c-7f8d6934c6bd
 
 
 # Framework
