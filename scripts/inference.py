@@ -136,8 +136,11 @@ def inference_process(args: argparse.Namespace):
     if args.checkpoint is not None:
         config.audio_ckpt_dir = args.checkpoint
     # 2. runtime variables
-    device = torch.device(
-        "cuda") if torch.cuda.is_available() else torch.device("cpu")
+    device = torch.device("cpu")
+    if torch.backends.mps.is_available():
+      device = torch.device("mps")
+    elif torch.cuda.is_available():
+      device = torch.device("cuda")
     if config.weight_dtype == "fp16":
         weight_dtype = torch.float16
     elif config.weight_dtype == "bf16":
