@@ -17,7 +17,7 @@ app = gr.Interface(
       gr.Audio,
       gr.Number(label="pose weight", value=1.0),
       gr.Number(label="face weight", value=1.0),
-      gr.Number(label="lip weight", value=1.0)
+      gr.Number(label="lip weight", value=1.0),
       gr.Number(label="face expand ratio", value=1.2),
     ],
     outputs=[gr.Video(value=filepath)],
