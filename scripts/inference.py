@@ -154,6 +154,7 @@ def inference_process(args: argparse.Namespace):
     # 3.1 prepare source image, face mask, face embeddings
     img_size = (config.data.source_image.width,
                 config.data.source_image.height)
+    print(f"img_size={img_size}")
     clip_length = config.data.n_sample_frames
     face_analysis_model_path = config.face_analysis.model_path
     with ImageProcessor(img_size, face_analysis_model_path) as image_processor:
