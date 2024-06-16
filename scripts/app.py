@@ -33,7 +33,7 @@ def predict(image, audio, size, steps, fps, cfg, pose_weight, face_weight, lip_w
 app = gr.Interface(
     fn=predict,
     inputs=[
-      gr.Image(label="source image", type="filepath", format="jpeg"),
+      gr.Image(label="source image (no webp)", type="filepath", format="jpeg"),
       gr.Audio(label="source audio", type="filepath"),
       gr.Number(label="size", value=512, minimum=256, maximum=512, step=64, precision=0),
       gr.Number(label="steps", value=40, minimum=1, step=1, precision=0),
