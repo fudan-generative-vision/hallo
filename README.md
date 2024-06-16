@@ -74,7 +74,8 @@ Besides, ffmpeg is also need:
 The inference entrypoint script is `scripts/inference.py`. Before testing your cases, there are two preparations need to be completed:
 
 1. [Download all required pretrained models](#download-pretrained-models).
-2. [Run inference](#run-inference).
+2. [Prepare source image and driving audio pairs](#prepare-inference-data).
+3. [Run inference](#run-inference).
 
 ## Download pretrained models
 
@@ -136,6 +137,24 @@ Finally, these pretrained models should be organized as follows:
     |   `-- vocab.json
 ```
 
+## Prepare Inference Data
+
+Hallo has a few simple requirements for input data:
+
+For the source image:
+
+1. It should be cropped into squares.
+2. The face should be the main focus, making up 50%-70% of the image.
+3. The face should be facing forward, with a rotation angle of less than 30° (no side profiles).
+
+For the driving audio:
+
+1. It must be in WAV format.
+2. It must be in English since our training datasets are only in this language.
+3. Ensure the vocals are clear; background music is acceptable.
+
+We have provided some samples for your reference.
+
 ## Run inference
 
 Simply to run the `scripts/inference.py` and pass `source_image` and `driving_audio` as input:
@@ -177,6 +196,7 @@ options:
 |   ✅   | **[Inference source code meet everyone on GitHub](https://github.com/fudan-generative-vision/hallo)** | 2024-06-15 |
 |   ✅   | **[Pretrained models on Huggingface](https://huggingface.co/fudan-generative-ai/hallo)**              | 2024-06-15 |
 | 🚀🚀🚀 | **[Traning: data preparation and training scripts]()**                                                | 2024-06-25 |
+| 🚀🚀🚀 | **[Optimize inference performance in Mandarin]()**                                                    |    TBD     |
 
 # Citation
 
