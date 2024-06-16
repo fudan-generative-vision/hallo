@@ -1,23 +1,44 @@
 from inference import inference_process
 import argparse
 import gradio as gr
+from omegaconf import OmegaConf
 def predict(image, audio, size, steps, pose_weight, face_weight, lip_weight, face_expand_ratio):
-  args = argparse.Namespace()
-  args.source_image=image
-  args.driving_audio=audio
-  args.pose_weight=pose_weight
-  args.face_weight=face_weight
-  args.lip_weight=lip_weight
-  args.face_expand_ratio=face_expand_ratio
-  args.config = "configs/inference/default.yaml"
-  args.checkpoint = None
-  args.output = ".cache/output.mp4"
+  dict = {
+    'data': {
+      'source_image': {
+        'width': size,
+        'height': size
+      }
+    },
+    'source_image': image,
+    'driving_audio': audio,
+    'pose_weight': pose_weight,
+    'face_weight': face_weight,
+    'lip_weight': lip_weight,
+    'face_expand_ratio': face_expand_ratio,
+    'config': 'configs/inference/default.yaml',
+    'checkpoint': None,
+    'output': ".cache/output.mp4",
+    'inference_steps': steps
+  }
+  args = OmegaConf.create(dict)
 
-  args.data = argparse.Namespace()
-  args.data.source_image = argparse.Namespace()
-  args.data.source_image.width = size
-
-  args.inference_steps = steps
+#  args = argparse.Namespace()
+#  args.source_image=image
+#  args.driving_audio=audio
+#  args.pose_weight=pose_weight
+#  args.face_weight=face_weight
+#  args.lip_weight=lip_weight
+#  args.face_expand_ratio=face_expand_ratio
+#  args.config = "configs/inference/default.yaml"
+#  args.checkpoint = None
+#  args.output = ".cache/output.mp4"
+#
+#  args.data = argparse.Namespace()
+#  args.data.source_image = argparse.Namespace()
+#  args.data.source_image.width = size
+#
+#  args.inference_steps = steps
 
   return inference_process(args)
 app = gr.Interface(
