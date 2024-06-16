@@ -58,7 +58,7 @@ app = gr.Interface(
       gr.Image(type="filepath"),
       gr.Audio(type="filepath"),
       gr.Number(label="size", value=256, minimum=256, maximum=512, step=64, precision=0),
-      gr.Number(label="steps", value=20, minimum=1, step=1, precision=0),
+      gr.Number(label="steps", value=40, minimum=1, step=1, precision=0),
       gr.Number(label="pose weight", value=1.0),
       gr.Number(label="face weight", value=1.0),
       gr.Number(label="lip weight", value=1.0),
