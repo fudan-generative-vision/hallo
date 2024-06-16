@@ -189,6 +189,20 @@ options:
                         face region
 ```
 
+## Web UI
+
+Install gradio:
+
+```
+pip install gradio
+```
+
+Run the script
+
+```
+python scripts/app.py
+```
+
 # Roadmap
 
 | Status | Milestone                                                                                             |    ETA     |
