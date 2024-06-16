@@ -288,7 +288,7 @@ def inference_process(args: argparse.Namespace):
     generator = torch.manual_seed(42)
 
     for t in range(times):
-        print(f"# {t}/{times}")
+        print(f"[{t}/{times}]")
 
         if len(tensor_result) == 0:
             # The first iteration
