@@ -2,6 +2,16 @@ from inference import inference_process
 import argparse
 import gradio as gr
 from omegaconf import OmegaConf
+def dict_to_namespace(d):
+  namespace = argparse.Namespace()
+  for key, value in d.items():
+    if isinstance(value, dict):
+      setattr(namespace, key, dict_to_namespace(value))
+    else:
+      setattr(namespace, key, value)
+  return namespace
+
+
 def predict(image, audio, size, steps, pose_weight, face_weight, lip_weight, face_expand_ratio):
   dict = {
     'data': {
@@ -21,7 +31,7 @@ def predict(image, audio, size, steps, pose_weight, face_weight, lip_weight, fac
     'output': ".cache/output.mp4",
     'inference_steps': steps
   }
-  args = OmegaConf.create(dict)
+  args = dict_to_namespace(dict)
 
 #  args = argparse.Namespace()
 #  args.source_image=image
