@@ -55,8 +55,8 @@ managing positional encoding, and integrating with external libraries for effici
 import math
 
 import torch
-#import xformers
-#import xformers.ops
+import xformers
+import xformers.ops
 from diffusers.models.attention import FeedForward
 from diffusers.models.attention_processor import Attention, AttnProcessor
 from diffusers.utils import BaseOutput
@@ -536,8 +536,6 @@ class VersatileAttention(Attention):
 
             try:
                 # Make sure we can run the memory efficient attention
-                import xformers
-                import xformers.ops
                 _ = xformers.ops.memory_efficient_attention(
                     torch.randn((1, 2, 40), device="cuda"),
                     torch.randn((1, 2, 40), device="cuda"),

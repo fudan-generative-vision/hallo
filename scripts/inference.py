@@ -136,11 +136,8 @@ def inference_process(args: argparse.Namespace):
     if args.checkpoint is not None:
         config.audio_ckpt_dir = args.checkpoint
     # 2. runtime variables
-    device = torch.device("cpu")
-    if torch.backends.mps.is_available():
-      device = torch.device("mps")
-    elif torch.cuda.is_available():
-      device = torch.device("cuda")
+    device = torch.device(
+        "cuda") if torch.cuda.is_available() else torch.device("cpu")
     if config.weight_dtype == "fp16":
         weight_dtype = torch.float16
     elif config.weight_dtype == "bf16":
@@ -154,7 +151,6 @@ def inference_process(args: argparse.Namespace):
     # 3.1 prepare source image, face mask, face embeddings
     img_size = (config.data.source_image.width,
                 config.data.source_image.height)
-    print(f"img_size={img_size}")
     clip_length = config.data.n_sample_frames
     face_analysis_model_path = config.face_analysis.model_path
     with ImageProcessor(img_size, face_analysis_model_path) as image_processor:
@@ -180,8 +176,7 @@ def inference_process(args: argparse.Namespace):
         wav2vec_only_last_features,
         os.path.dirname(audio_separator_model_file),
         os.path.basename(audio_separator_model_file),
-        os.path.join(save_path, "audio_preprocess"),
-        device=device
+        os.path.join(save_path, "audio_preprocess")
     ) as audio_processor:
         audio_emb = audio_processor.preprocess(driving_audio_path)
 
