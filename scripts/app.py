@@ -5,10 +5,11 @@ from omegaconf import OmegaConf
 def dict_to_namespace(d):
   namespace = argparse.Namespace()
   for key, value in d.items():
-    if isinstance(value, dict):
-      setattr(namespace, key, dict_to_namespace(value))
-    else:
-      setattr(namespace, key, value)
+    setattr(namespace, key, value)
+    #if isinstance(value, dict):
+    #  setattr(namespace, key, dict_to_namespace(value))
+    #else:
+    #  setattr(namespace, key, value)
   return namespace
 
 
