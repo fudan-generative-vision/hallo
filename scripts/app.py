@@ -2,17 +2,6 @@ from inference import inference_process
 import argparse
 import gradio as gr
 from omegaconf import OmegaConf
-def dict_to_namespace(d):
-  namespace = argparse.Namespace()
-  for key, value in d.items():
-    setattr(namespace, key, value)
-    #if isinstance(value, dict):
-    #  setattr(namespace, key, dict_to_namespace(value))
-    #else:
-    #  setattr(namespace, key, value)
-  return namespace
-
-
 def predict(image, audio, size, steps, fps, cfg, pose_weight, face_weight, lip_weight, face_expand_ratio):
   dict = {
     'data': {
@@ -36,26 +25,11 @@ def predict(image, audio, size, steps, fps, cfg, pose_weight, face_weight, lip_w
     'output': ".cache/output.mp4",
     'inference_steps': steps
   }
-  args = dict_to_namespace(dict)
-
-#  args = argparse.Namespace()
-#  args.source_image=image
-#  args.driving_audio=audio
-#  args.pose_weight=pose_weight
-#  args.face_weight=face_weight
-#  args.lip_weight=lip_weight
-#  args.face_expand_ratio=face_expand_ratio
-#  args.config = "configs/inference/default.yaml"
-#  args.checkpoint = None
-#  args.output = ".cache/output.mp4"
-#
-#  args.data = argparse.Namespace()
-#  args.data.source_image = argparse.Namespace()
-#  args.data.source_image.width = size
-#
-#  args.inference_steps = steps
-
+  args = argparse.Namespace()
+  for key, value in dict.items():
+      setattr(args, key, value)
   return inference_process(args)
+
 app = gr.Interface(
     fn=predict,
     inputs=[
@@ -72,5 +46,4 @@ app = gr.Interface(
     ],
     outputs=[gr.Video()],
 )
-
 app.launch()
