@@ -106,12 +106,12 @@
             "id": "films",
             "title": "Honoring Classic Films",
             "items": [
-                "//cdn.aondata.work/video/short_movie/Shawshank-480p.mp4",
                 "//cdn.aondata.work/video/short_movie/%E6%97%A0%E9%97%B4%E9%81%93-480p.mp4",
+                "//cdn.aondata.work/video/short_movie/Devil_Wears_Prada-480p.mp4",
+                "//cdn.aondata.work/video/short_movie/Shawshank-480p.mp4",
                 "//cdn.aondata.work/video/short_movie/The_Weather_Man-480p.mp4",
-                "//cdn.aondata.work/video/short_movie/Flipped-480p.mp4",
                 "//cdn.aondata.work/video/short_movie/Game_of_Thrones_Season-480p.mp4",
-                "//cdn.aondata.work/video/short_movie/Prision_Beak-480p.mp4"
+                "//cdn.aondata.work/video/short_movie/Flipped-480p.mp4"
             ],
             "count": 3
         }
