@@ -241,7 +241,7 @@ options:
 | 🚀 | **[Releasing data preparation and training scripts]()**                                                | 2024-06-28 |
 
 <details>
-<summary>Other Enhacements</summary>
+<summary>Other Enhancements</summary>
 
 - [ ] Enhancement: Test and ensure compatibility with Windows operating system. [#39](https://github.com/fudan-generative-vision/hallo/issues/39)
 - [ ] Bug: Output video may lose several frames. [#41](https://github.com/fudan-generative-vision/hallo/issues/41)
