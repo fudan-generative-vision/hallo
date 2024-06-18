@@ -128,12 +128,12 @@
             "id": "vc2",
             "title": "Virtual Character",
             "items": [
-                "//cdn.aondata.work/video/portrait_style/4.mp4",
-                "//cdn.aondata.work/video/portrait_style/3.mp4",
                 "//cdn.aondata.work/video/portrait_style/1.mp4",
                 "//cdn.aondata.work/video/portrait_style/2.mp4",
                 "//cdn.aondata.work/video/portrait_style/5.mp4",
-                "//cdn.aondata.work/video/portrait_style/6.mp4"
+                "//cdn.aondata.work/video/portrait_style/6.mp4",
+                "//cdn.aondata.work/video/portrait_style/4.mp4",
+                "//cdn.aondata.work/video/portrait_style/3.mp4"
             ]
         }
     },
