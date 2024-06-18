@@ -315,7 +315,7 @@ def tensor_to_video(tensor, output_video_file, audio_source, fps=25):
     new_video_clip = VideoClip(make_frame, duration=tensor.shape[0] / fps)
     audio_clip = AudioFileClip(audio_source).subclip(0, tensor.shape[0] / fps)
     new_video_clip = new_video_clip.set_audio(audio_clip)
-    new_video_clip.write_videofile(output_video_file, fps=fps)
+    new_video_clip.write_videofile(output_video_file, fps=fps, audio_codec='aac')
 
 
 silhouette_ids = [

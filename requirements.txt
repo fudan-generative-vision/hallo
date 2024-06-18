@@ -28,3 +28,4 @@ xformers==0.0.25.post1
 isort==5.13.2
 pylint==3.2.2
 pre-commit==3.7.1
+gradio==4.36.1
