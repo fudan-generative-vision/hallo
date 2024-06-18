@@ -36,7 +36,7 @@ install_requires = \
  'xformers==0.0.25.post1']
 
 setup_kwargs = {
-    'name': 'anna',
+    'name': 'hallo',
     'version': '0.1.0',
     'description': '',
     'long_description': '# Anna face animation',
