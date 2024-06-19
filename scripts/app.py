@@ -1,34 +1,47 @@
-from inference import inference_process
+"""
+This script is a gradio web ui.
+
+The script takes an image and an audio clip, and lets you configure all the
+variables such as cfg_scale, pose_weight, face_weight, lip_weight, etc.
+
+Usage:
+This script can be run from the command line with the following command:
+
+python scripts/app.py
+"""
 import argparse
+from inference import inference_process
 import gradio as gr
-from omegaconf import OmegaConf
 def predict(image, audio, size, steps, fps, cfg, pose_weight, face_weight, lip_weight, face_expand_ratio):
-  dict = {
-    'data': {
-      'source_image': {
-        'width': size,
-        'height': size
-      },
-      'export_video': {
-        'fps': fps
-      }
-    },
-    'cfg_scale': cfg,
-    'source_image': image,
-    'driving_audio': audio,
-    'pose_weight': pose_weight,
-    'face_weight': face_weight,
-    'lip_weight': lip_weight,
-    'face_expand_ratio': face_expand_ratio,
-    'config': 'configs/inference/default.yaml',
-    'checkpoint': None,
-    'output': ".cache/output.mp4",
-    'inference_steps': steps
-  }
-  args = argparse.Namespace()
-  for key, value in dict.items():
-      setattr(args, key, value)
-  return inference_process(args)
+    """
+    Create a gradio interface with the configs.
+    """
+    config = {
+        'data': {
+            'source_image': {
+                'width': size,
+                'height': size
+            },
+            'export_video': {
+                'fps': fps
+            }
+        },
+        'cfg_scale': cfg,
+        'source_image': image,
+        'driving_audio': audio,
+        'pose_weight': pose_weight,
+        'face_weight': face_weight,
+        'lip_weight': lip_weight,
+        'face_expand_ratio': face_expand_ratio,
+        'config': 'configs/inference/default.yaml',
+        'checkpoint': None,
+        'output': ".cache/output.mp4",
+        'inference_steps': steps
+    }
+    args = argparse.Namespace()
+    for key, value in config.items():
+        setattr(args, key, value)
+    return inference_process(args)
 
 app = gr.Interface(
     fn=predict,
