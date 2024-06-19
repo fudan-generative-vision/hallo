@@ -104,14 +104,14 @@ Install packages with `pip`
   pip install .
 ```
 
-Besides, ffmpeg is also need:
+Besides, ffmpeg is also needed:
 ```bash
   apt-get install ffmpeg
 ```
 
 ## 🗝️️ Usage
 
-The inference entrypoint script is `scripts/inference.py`. Before testing your cases, there are two preparations need to be completed:
+The entry point for inference is `scripts/inference.py`. Before testing your cases, two preparations need to be completed:
 
 1. [Download all required pretrained models](#download-pretrained-models).
 2. [Prepare source image and driving audio pairs](#prepare-inference-data).
@@ -121,7 +121,7 @@ The inference entrypoint script is `scripts/inference.py`. Before testing your c
 
 You can easily get all pretrained models required by inference from our [HuggingFace repo](https://huggingface.co/fudan-generative-ai/hallo).
 
-Clone the the pretrained models into `${PROJECT_ROOT}/pretrained_models` directory by cmd below:
+Clone the pretrained models into `${PROJECT_ROOT}/pretrained_models` directory by cmd below:
 
 ```shell
 git lfs install
