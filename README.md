@@ -1,6 +1,6 @@
-<h1 align='Center'>Hallo: Hierarchical Audio-Driven Visual Synthesis for Portrait Image Animation</h1>
+<h1 align='center'>Hallo: Hierarchical Audio-Driven Visual Synthesis for Portrait Image Animation</h1>
 
-<div align='Center'>
+<div align='center'>
     <a href='https://github.com/xumingw' target='_blank'>Mingwang Xu</a><sup>1*</sup>&emsp;
     <a href='https://github.com/crystallee-ai' target='_blank'>Hui Li</a><sup>1*</sup>&emsp;
     <a href='https://github.com/subazinga' target='_blank'>Qingkun Su</a><sup>1*</sup>&emsp;
@@ -14,12 +14,12 @@
     <a href='https://sites.google.com/site/zhusiyucs/home' target='_blank'>Siyu Zhu</a><sup>1</sup>&emsp;
 </div>
 
-<div align='Center'>
+<div align='center'>
     <sup>1</sup>Fudan University&emsp; <sup>2</sup>Baidu Inc&emsp; <sup>3</sup>ETH Zurich&emsp; <sup>4</sup>Nanjing University
 </div>
 
 <br>
-<div align='Center'>
+<div align='center'>
     <a href='https://github.com/fudan-generative-vision/hallo'><img src='https://img.shields.io/github/stars/fudan-generative-vision/hallo?style=social'></a>
     <a href='https://fudan-generative-vision.github.io/hallo/#/'><img src='https://img.shields.io/badge/Project-HomePage-Green'></a>
     <a href='https://arxiv.org/pdf/2406.08801'><img src='https://img.shields.io/badge/Paper-Arxiv-red'></a>
