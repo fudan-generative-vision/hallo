@@ -200,7 +200,7 @@ We have provided [some samples](examples/) for your reference.
 Simply to run the `scripts/inference.py` and pass `source_image` and `driving_audio` as input:
 
 ```bash
-python scripts/inference.py --source_image examples/source_images/1.jpg --driving_audio examples/driving_audios/1.wav
+python scripts/inference.py --source_image examples/reference_images/1.jpg --driving_audio examples/driving_audios/1.wav
 ```
 
 Animation results will be saved as `${PROJECT_ROOT}/.cache/output.mp4` by default. You can pass `--output` to specify the output file name. You can find more examples for inference at [examples folder](https://github.com/fudan-generative-vision/hallo/tree/main/examples).
