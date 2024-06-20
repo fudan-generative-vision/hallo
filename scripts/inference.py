@@ -178,7 +178,7 @@ def inference_process(args: argparse.Namespace):
         os.path.basename(audio_separator_model_file),
         os.path.join(save_path, "audio_preprocess")
     ) as audio_processor:
-        audio_emb = audio_processor.preprocess(driving_audio_path)
+        audio_emb, audio_length = audio_processor.preprocess(driving_audio_path, clip_length)
 
     # 4. build modules
     sched_kwargs = OmegaConf.to_container(config.noise_scheduler_kwargs)
@@ -339,6 +339,7 @@ def inference_process(args: argparse.Namespace):
 
     tensor_result = torch.cat(tensor_result, dim=2)
     tensor_result = tensor_result.squeeze(0)
+    tensor_result = tensor_result[:, :audio_length]
 
     output_file = config.output
     # save the result after all iteration
