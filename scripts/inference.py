@@ -288,6 +288,7 @@ def inference_process(args: argparse.Namespace):
     generator = torch.manual_seed(42)
 
     for t in range(times):
+        print(f"[{t+1}/{times}]")
 
         if len(tensor_result) == 0:
             # The first iteration
@@ -342,6 +343,7 @@ def inference_process(args: argparse.Namespace):
     output_file = config.output
     # save the result after all iteration
     tensor_to_video(tensor_result, output_file, driving_audio_path)
+    return output_file
 
 
 if __name__ == "__main__":
