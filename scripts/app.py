@@ -10,8 +10,11 @@ This script can be run from the command line with the following command:
 python scripts/app.py
 """
 import argparse
-from inference import inference_process
+
 import gradio as gr
+from inference import inference_process
+
+
 def predict(image, audio, size, steps, fps, cfg, pose_weight, face_weight, lip_weight, face_expand_ratio):
     """
     Create a gradio interface with the configs.
