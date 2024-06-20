@@ -33,7 +33,7 @@
 ## 📸 Showcase
 
 
-https://github.com/fudan-generative-vision/hallo/assets/17402682/294e78ef-c60d-4c32-8e3c-7f8d6934c6bd
+https://github.com/fudan-generative-vision/hallo/assets/17402682/9d1a0de4-3470-4d38-9e4f-412f517f834c
 
 ### 🎬 Honoring Classic Films
 
