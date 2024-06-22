@@ -73,7 +73,7 @@ class AudioProcessor:
         self.wav2vec_feature_extractor = Wav2Vec2FeatureExtractor.from_pretrained(wav2vec_model_path, local_files_only=True)
 
 
-    def preprocess(self, wav_file: str):
+    def preprocess(self, wav_file: str, clip_length: int):
         """
         Preprocess a WAV audio file by separating the vocals from the background and resampling it to a 16 kHz sample rate.
         The separated vocal track is then converted into wav2vec2 for further processing or analysis.
@@ -106,8 +106,12 @@ class AudioProcessor:
         speech_array, sampling_rate = librosa.load(vocal_audio_file, sr=self.sample_rate)
         audio_feature = np.squeeze(self.wav2vec_feature_extractor(speech_array, sampling_rate=sampling_rate).input_values)
         seq_len = math.ceil(len(audio_feature) / self.sample_rate * self.fps)
+        audio_length = seq_len
 
         audio_feature = torch.from_numpy(audio_feature).float().to(device=self.device)
+        if seq_len % clip_length != 0:
+            audio_feature = torch.nn.functional.pad(audio_feature, (0, (clip_length - seq_len % clip_length) * (self.sample_rate // self.fps)), 'constant', 0.0)
+            seq_len += clip_length - seq_len % clip_length
         audio_feature = audio_feature.unsqueeze(0)
 
         with torch.no_grad():
@@ -121,7 +125,7 @@ class AudioProcessor:
 
         audio_emb = audio_emb.cpu().detach()
 
-        return audio_emb
+        return audio_emb, audio_length
 
     def get_embedding(self, wav_file: str):
         """preprocess wav audio file convert to embeddings
