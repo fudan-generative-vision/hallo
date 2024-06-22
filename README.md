@@ -146,6 +146,9 @@ Finally, these pretrained models should be organized as follows:
 ```text
 ./pretrained_models/
 |-- audio_separator/
+|   |-- download_checks.json
+|   |-- mdx_model_data.json
+|   |-- vr_model_data.json
 |   `-- Kim_Vocal_2.onnx
 |-- face_analysis/
 |   `-- models/
@@ -161,22 +164,18 @@ Finally, these pretrained models should be organized as follows:
 |   |-- config.json
 |   `-- diffusion_pytorch_model.safetensors
 |-- stable-diffusion-v1-5/
-|   |-- feature_extractor/
-|   |   `-- preprocessor_config.json
-|   |-- model_index.json
-|   |-- unet/
-|   |   |-- config.json
-|   |   `-- diffusion_pytorch_model.safetensors
-|   `-- v1-inference.yaml
+|   `-- unet/
+|       |-- config.json
+|       `-- diffusion_pytorch_model.safetensors
 `-- wav2vec/
-    |-- wav2vec2-base-960h/
-    |   |-- config.json
-    |   |-- feature_extractor_config.json
-    |   |-- model.safetensors
-    |   |-- preprocessor_config.json
-    |   |-- special_tokens_map.json
-    |   |-- tokenizer_config.json
-    |   `-- vocab.json
+    `-- wav2vec2-base-960h/
+        |-- config.json
+        |-- feature_extractor_config.json
+        |-- model.safetensors
+        |-- preprocessor_config.json
+        |-- special_tokens_map.json
+        |-- tokenizer_config.json
+        `-- vocab.json
 ```
 
 ### 🛠️ Prepare Inference Data
