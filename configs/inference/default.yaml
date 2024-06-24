@@ -1,5 +1,5 @@
-source_image: ./default.png
-driving_audio: default.wav
+source_image: examples/reference_images/1.jpg
+driving_audio: examples/driving_audios/1.wav
 
 weight_dtype: fp16
 
@@ -38,10 +38,10 @@ vae:
 
 save_path: ./.cache
 
-face_expand_ratio: 1.1
-pose_weight: 1.1
-face_weight: 1.1
-lip_weight: 1.1
+face_expand_ratio: 1.2
+pose_weight: 1.0
+face_weight: 1.0
+lip_weight: 1.0
 
 unet_additional_kwargs:
   use_inflated_groupnorm: true
