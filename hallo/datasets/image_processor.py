@@ -117,11 +117,19 @@ class ImageProcessor:
         # 1. image augmentation
         pixel_values_ref_img = self._augmentation(ref_image_pil, self.pixel_transform)
 
-
         # 2.1 detect face
         faces = self.face_analysis.get(cv2.cvtColor(np.array(ref_image_pil.copy()), cv2.COLOR_RGB2BGR))
-        # use max size face
-        face = sorted(faces, key=lambda x: (x["bbox"][2] - x["bbox"][0]) * (x["bbox"][3] - x["bbox"][1]))[-1]
+        if not faces:
+            print("No faces detected in the image. Using the entire image as the face region.")
+            # Use the entire image as the face region
+            face = {
+                "bbox": [0, 0, ref_image_pil.width, ref_image_pil.height],
+                "embedding": np.zeros(512)
+            }
+        else:
+            # Sort faces by size and select the largest one
+            faces_sorted = sorted(faces, key=lambda x: (x["bbox"][2] - x["bbox"][0]) * (x["bbox"][3] - x["bbox"][1]), reverse=True)
+            face = faces_sorted[0]  # Select the largest face
 
         # 2.2 face embedding
         face_emb = face["embedding"]
@@ -173,7 +181,7 @@ class ImageProcessor:
     def close(self):
         """
         Closes the ImageProcessor and releases any resources held by the FaceAnalysis instance.
-        
+
         Args:
             self: The ImageProcessor instance.
 
