@@ -44,6 +44,7 @@ from hallo.models.face_locator import FaceLocator
 from hallo.models.image_proj import ImageProjModel
 from hallo.models.unet_2d_condition import UNet2DConditionModel
 from hallo.models.unet_3d import UNet3DConditionModel
+from hallo.utils.config import filter_non_none
 from hallo.utils.util import tensor_to_video
 
 
@@ -125,16 +126,16 @@ def inference_process(args: argparse.Namespace):
     modules and variables to prepare for the upcoming inference steps.
     """
     # 1. init config
+    cli_args = filter_non_none(vars(args))
     config = OmegaConf.load(args.config)
-    config = OmegaConf.merge(config, vars(args))
+    config = OmegaConf.merge(config, cli_args)
     source_image_path = config.source_image
     driving_audio_path = config.driving_audio
     save_path = config.save_path
     if not os.path.exists(save_path):
         os.makedirs(save_path)
     motion_scale = [config.pose_weight, config.face_weight, config.lip_weight]
-    if args.checkpoint is not None:
-        config.audio_ckpt_dir = args.checkpoint
+
     # 2. runtime variables
     device = torch.device(
         "cuda") if torch.cuda.is_available() else torch.device("cpu")
@@ -353,21 +354,21 @@ if __name__ == "__main__":
     parser.add_argument(
         "-c", "--config", default="configs/inference/default.yaml")
     parser.add_argument("--source_image", type=str, required=False,
-                        help="source image", default="test_data/source_images/6.jpg")
+                        help="source image")
     parser.add_argument("--driving_audio", type=str, required=False,
-                        help="driving audio", default="test_data/driving_audios/singing/sing_4.wav")
+                        help="driving audio")
     parser.add_argument(
         "--output", type=str, help="output video file name", default=".cache/output.mp4")
     parser.add_argument(
-        "--pose_weight", type=float, help="weight of pose", default=1.0)
+        "--pose_weight", type=float, help="weight of pose", required=False)
     parser.add_argument(
-        "--face_weight", type=float, help="weight of face", default=1.0)
+        "--face_weight", type=float, help="weight of face", required=False)
     parser.add_argument(
-        "--lip_weight", type=float, help="weight of lip", default=1.0)
+        "--lip_weight", type=float, help="weight of lip", required=False)
     parser.add_argument(
-        "--face_expand_ratio", type=float, help="face region", default=1.2)
+        "--face_expand_ratio", type=float, help="face region", required=False)
     parser.add_argument(
-        "--checkpoint", type=str, help="which checkpoint", default=None)
+        "--audio_ckpt_dir", "--checkpoint", type=str, help="specific checkpoint dir", required=False)
 
 
     command_line_args = parser.parse_args()
