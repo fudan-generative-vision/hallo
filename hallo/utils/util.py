@@ -67,6 +67,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
+from typing import List
 
 import av
 import cv2
@@ -614,3 +615,150 @@ def get_face_region(image_path: str, detector):
     except Exception as e:
         print(f"Error processing image {image_path}: {e}")
         return None, None
+
+
+def save_checkpoint(model: torch.nn.Module, save_dir: str, prefix: str, ckpt_num: int, total_limit: int = -1) -> None:
+    """
+    Save the model's state_dict to a checkpoint file.
+
+    If `total_limit` is provided, this function will remove the oldest checkpoints
+    until the total number of checkpoints is less than the specified limit.
+
+    Args:
+        model (nn.Module): The model whose state_dict is to be saved.
+        save_dir (str): The directory where the checkpoint will be saved.
+        prefix (str): The prefix for the checkpoint file name.
+        ckpt_num (int): The checkpoint number to be saved.
+        total_limit (int, optional): The maximum number of checkpoints to keep.
+            Defaults to None, in which case no checkpoints will be removed.
+
+    Raises:
+        FileNotFoundError: If the save directory does not exist.
+        ValueError: If the checkpoint number is negative.
+        OSError: If there is an error saving the checkpoint.
+    """
+
+    if not osp.exists(save_dir):
+        raise FileNotFoundError(
+            f"The save directory {save_dir} does not exist.")
+
+    if ckpt_num < 0:
+        raise ValueError(f"Checkpoint number {ckpt_num} must be non-negative.")
+
+    save_path = osp.join(save_dir, f"{prefix}-{ckpt_num}.pth")
+
+    if total_limit > 0:
+        checkpoints = os.listdir(save_dir)
+        checkpoints = [d for d in checkpoints if d.startswith(prefix)]
+        checkpoints = sorted(
+            checkpoints, key=lambda x: int(x.split("-")[1].split(".")[0])
+        )
+
+        if len(checkpoints) >= total_limit:
+            num_to_remove = len(checkpoints) - total_limit + 1
+            removing_checkpoints = checkpoints[0:num_to_remove]
+            print(
+                f"{len(checkpoints)} checkpoints already exist, removing {len(removing_checkpoints)} checkpoints"
+            )
+            print(
+                f"Removing checkpoints: {', '.join(removing_checkpoints)}"
+            )
+
+            for removing_checkpoint in removing_checkpoints:
+                removing_checkpoint_path = osp.join(
+                    save_dir, removing_checkpoint)
+                try:
+                    os.remove(removing_checkpoint_path)
+                except OSError as e:
+                    print(
+                        f"Error removing checkpoint {removing_checkpoint_path}: {e}")
+
+    state_dict = model.state_dict()
+    try:
+        torch.save(state_dict, save_path)
+        print(f"Checkpoint saved at {save_path}")
+    except OSError as e:
+        raise OSError(f"Error saving checkpoint at {save_path}: {e}") from e
+
+
+def init_output_dir(dir_list: List[str]):
+    """
+    Initialize the output directories.
+
+    This function creates the directories specified in the `dir_list`. If a directory already exists, it does nothing.
+
+    Args:
+        dir_list (List[str]): List of directory paths to create.
+    """
+    for path in dir_list:
+        os.makedirs(path, exist_ok=True)
+
+
+def load_checkpoint(cfg, save_dir, accelerator):
+    """
+    Load the most recent checkpoint from the specified directory.
+
+    This function loads the latest checkpoint from the `save_dir` if the `resume_from_checkpoint` parameter is set to "latest".
+    If a specific checkpoint is provided in `resume_from_checkpoint`, it loads that checkpoint. If no checkpoint is found,
+    it starts training from scratch.
+
+    Args:
+        cfg: The configuration object containing training parameters.
+        save_dir (str): The directory where checkpoints are saved.
+        accelerator: The accelerator object for distributed training.
+
+    Returns:
+        int: The global step at which to resume training.
+    """
+    if cfg.resume_from_checkpoint != "latest":
+        resume_dir = cfg.resume_from_checkpoint
+    else:
+        resume_dir = save_dir
+    # Get the most recent checkpoint
+    dirs = os.listdir(resume_dir)
+
+    dirs = [d for d in dirs if d.startswith("checkpoint")]
+    if len(dirs) > 0:
+        dirs = sorted(dirs, key=lambda x: int(x.split("-")[1]))
+        path = dirs[-1]
+        accelerator.load_state(os.path.join(resume_dir, path))
+        accelerator.print(f"Resuming from checkpoint {path}")
+        global_step = int(path.split("-")[1])
+    else:
+        accelerator.print(
+            f"Could not find checkpoint under {resume_dir}, start training from scratch")
+        global_step = 0
+
+    return global_step
+
+
+def compute_snr(noise_scheduler, timesteps):
+    """
+    Computes SNR as per
+    https://github.com/TiankaiHang/Min-SNR-Diffusion-Training/blob/
+            521b624bd70c67cee4bdf49225915f5945a872e3/guided_diffusion/gaussian_diffusion.py#L847-L849
+    """
+    alphas_cumprod = noise_scheduler.alphas_cumprod
+    sqrt_alphas_cumprod = alphas_cumprod**0.5
+    sqrt_one_minus_alphas_cumprod = (1.0 - alphas_cumprod) ** 0.5
+
+    # Expand the tensors.
+    # Adapted from https://github.com/TiankaiHang/Min-SNR-Diffusion-Training/blob/
+    #              521b624bd70c67cee4bdf49225915f5945a872e3/guided_diffusion/gaussian_diffusion.py#L1026
+    sqrt_alphas_cumprod = sqrt_alphas_cumprod.to(device=timesteps.device)[
+        timesteps
+    ].float()
+    while len(sqrt_alphas_cumprod.shape) < len(timesteps.shape):
+        sqrt_alphas_cumprod = sqrt_alphas_cumprod[..., None]
+    alpha = sqrt_alphas_cumprod.expand(timesteps.shape)
+
+    sqrt_one_minus_alphas_cumprod = sqrt_one_minus_alphas_cumprod.to(
+        device=timesteps.device
+    )[timesteps].float()
+    while len(sqrt_one_minus_alphas_cumprod.shape) < len(timesteps.shape):
+        sqrt_one_minus_alphas_cumprod = sqrt_one_minus_alphas_cumprod[..., None]
+    sigma = sqrt_one_minus_alphas_cumprod.expand(timesteps.shape)
+
+    # Compute SNR.
+    snr = (alpha / sigma) ** 2
+    return snr
