@@ -1,6 +1,7 @@
 # pylint: disable=C0116
 # pylint: disable=W0718
 # pylint: disable=R1732
+# pylint: disable=R0801
 """
 utils.py
 
@@ -378,7 +379,32 @@ def get_landmark(file):
     return np.array(face_landmark), height, width
 
 
-def get_lip_mask(landmarks, height, width, out_path):
+def get_landmark_overframes(landmark_model, frames_path):
+    """
+    This function iterate frames and returns the facial landmarks detected in each frame.
+
+    Args:
+        landmark_model: mediapipe landmark model instance
+        frames_path (str): The path to the video frames.
+
+    Returns:
+        List[List[float], float, float]: A List containing two lists of floats representing the x and y coordinates of the facial landmarks.
+    """
+
+    face_landmarks = []
+
+    for file in sorted(os.listdir(frames_path)):
+        image = mp.Image.create_from_file(os.path.join(frames_path, file))
+        height, width = image.height, image.width
+        landmarker_result = landmark_model.detect(image)
+        frame_landmark = compute_face_landmarks(
+            landmarker_result, height, width)
+        face_landmarks.append(frame_landmark)
+
+    return face_landmarks, height, width
+
+
+def get_lip_mask(landmarks, height, width, out_path=None, expand_ratio=2.0):
     """
     Extracts the lip region from the given landmarks and saves it as an image.
 
@@ -387,19 +413,42 @@ def get_lip_mask(landmarks, height, width, out_path):
         height (int): Height of the output lip mask image.
         width (int): Width of the output lip mask image.
         out_path (pathlib.Path): Path to save the lip mask image.
+        expand_ratio (float): Expand ratio of mask.
     """
     lip_landmarks = np.take(landmarks, lip_ids, 0)
     min_xy_lip = np.round(np.min(lip_landmarks, 0))
     max_xy_lip = np.round(np.max(lip_landmarks, 0))
     min_xy_lip[0], max_xy_lip[0], min_xy_lip[1], max_xy_lip[1] = expand_region(
-        [min_xy_lip[0], max_xy_lip[0], min_xy_lip[1], max_xy_lip[1]], width, height, 2.0)
+        [min_xy_lip[0], max_xy_lip[0], min_xy_lip[1], max_xy_lip[1]], width, height, expand_ratio)
     lip_mask = np.zeros((height, width), dtype=np.uint8)
     lip_mask[round(min_xy_lip[1]):round(max_xy_lip[1]),
              round(min_xy_lip[0]):round(max_xy_lip[0])] = 255
-    cv2.imwrite(str(out_path), lip_mask)
+    if out_path:
+        cv2.imwrite(str(out_path), lip_mask)
+        return None
+
+    return lip_mask
 
 
-def get_face_mask(landmarks, height, width, out_path, expand_ratio):
+def get_union_lip_mask(landmarks, height, width, expand_ratio=1):
+    """
+    Extracts the lip region from the given landmarks and saves it as an image.
+
+    Parameters:
+        landmarks (numpy.ndarray): Array of facial landmarks.
+        height (int): Height of the output lip mask image.
+        width (int): Width of the output lip mask image.
+        expand_ratio (float): Expand ratio of mask.
+    """
+    lip_masks = []
+    for landmark in landmarks:
+        lip_masks.append(get_lip_mask(landmarks=landmark, height=height,
+                     width=width, expand_ratio=expand_ratio))
+    union_mask = get_union_mask(lip_masks)
+    return union_mask
+
+
+def get_face_mask(landmarks, height, width, out_path=None, expand_ratio=1.2):
     """
     Generate a face mask based on the given landmarks.
 
@@ -408,7 +457,7 @@ def get_face_mask(landmarks, height, width, out_path, expand_ratio):
         height (int): The height of the output face mask image.
         width (int): The width of the output face mask image.
         out_path (pathlib.Path): The path to save the face mask image.
-
+        expand_ratio (float): Expand ratio of mask.
     Returns:
         None. The face mask image is saved at the specified path.
     """
@@ -420,8 +469,30 @@ def get_face_mask(landmarks, height, width, out_path, expand_ratio):
     face_mask = np.zeros((height, width), dtype=np.uint8)
     face_mask[round(min_xy_face[1]):round(max_xy_face[1]),
               round(min_xy_face[0]):round(max_xy_face[0])] = 255
-    cv2.imwrite(str(out_path), face_mask)
+    if out_path:
+        cv2.imwrite(str(out_path), face_mask)
+        return None
 
+    return face_mask
+
+
+def get_union_face_mask(landmarks, height, width, expand_ratio=1):
+    """
+    Generate a face mask based on the given landmarks.
+
+    Args:
+        landmarks (numpy.ndarray): The landmarks of the face.
+        height (int): The height of the output face mask image.
+        width (int): The width of the output face mask image.
+        expand_ratio (float): Expand ratio of mask.
+    Returns:
+        None. The face mask image is saved at the specified path.
+    """
+    face_masks = []
+    for landmark in landmarks:
+        face_masks.append(get_face_mask(landmarks=landmark,height=height,width=width,expand_ratio=expand_ratio))
+    union_mask = get_union_mask(face_masks)
+    return union_mask
 
 def get_mask(file, cache_dir, face_expand_raio):
     """
@@ -508,6 +579,25 @@ def get_blur_mask(file_path, output_file_path, resize_dim=(64, 64), kernel_size=
 
     # Check if the image is loaded successfully
     if mask is not None:
+        normalized_mask = blur_mask(mask,resize_dim=resize_dim,kernel_size=kernel_size)
+        # Save the normalized mask image
+        cv2.imwrite(output_file_path, normalized_mask)
+        return f"Processed, normalized, and saved: {output_file_path}"
+    return f"Failed to load image: {file_path}"
+
+
+def blur_mask(mask, resize_dim=(64, 64), kernel_size=(51, 51)):
+    """
+    Read, resize, blur, normalize, and save an image.
+
+    Parameters:
+    file_path (str): Path to the input image file.
+    resize_dim (tuple): Dimensions to resize the images to.
+    kernel_size (tuple): Size of the kernel to use for Gaussian blur.
+    """
+    # Check if the image is loaded successfully
+    normalized_mask = None
+    if mask is not None:
         # Resize the mask image
         resized_mask = cv2.resize(mask, resize_dim)
         # Apply Gaussian blur to the resized mask image
@@ -516,10 +606,7 @@ def get_blur_mask(file_path, output_file_path, resize_dim=(64, 64), kernel_size=
         normalized_mask = cv2.normalize(
             blurred_mask, None, 0, 255, cv2.NORM_MINMAX)
         # Save the normalized mask image
-        cv2.imwrite(output_file_path, normalized_mask)
-        return f"Processed, normalized, and saved: {output_file_path}"
-    return f"Failed to load image: {file_path}"
-
+    return normalized_mask
 
 def get_background_mask(file_path, output_file_path):
     """
@@ -762,3 +849,103 @@ def compute_snr(noise_scheduler, timesteps):
     # Compute SNR.
     snr = (alpha / sigma) ** 2
     return snr
+
+def extract_audio_from_videos(video_path: Path, output_dir: Path) -> Path:
+    """
+    Extract audio from a video file and save it as a WAV file.
+
+    This function uses ffmpeg to extract the audio stream from a given video file and saves it as a WAV file
+    in the specified output directory.
+
+    Args:
+        video_path (Path): The path to the input video file.
+        output_dir (Path): The directory where the extracted audio file will be saved.
+
+    Returns:
+        Path: The path to the extracted audio file.
+
+    Raises:
+        subprocess.CalledProcessError: If the ffmpeg command fails to execute.
+    """
+    audio_output_dir = output_dir / 'audios'
+    audio_output_dir.mkdir(parents=True, exist_ok=True)
+    audio_output_path = audio_output_dir / f'{video_path.stem}.wav'
+
+    ffmpeg_command = [
+        'ffmpeg', '-y',
+        '-i', str(video_path),
+        '-vn', '-acodec',
+        "pcm_s16le", '-ar', '16000', '-ac', '2',
+        str(audio_output_path)
+    ]
+
+    try:
+        print(f"Running command: {' '.join(ffmpeg_command)}")
+        subprocess.run(ffmpeg_command, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error extracting audio from video: {e}")
+        raise
+
+    return audio_output_path
+
+
+def convert_video_to_images(video_path: Path, output_dir: Path) -> Path:
+    """
+    Convert a video file into a sequence of images.
+
+    This function uses ffmpeg to convert each frame of the given video file into an image. The images are saved
+    in a directory named after the video file stem under the specified output directory.
+
+    Args:
+        video_path (Path): The path to the input video file.
+        output_dir (Path): The directory where the extracted images will be saved.
+
+    Returns:
+        Path: The path to the directory containing the extracted images.
+
+    Raises:
+        subprocess.CalledProcessError: If the ffmpeg command fails to execute.
+    """
+    images_output_dir = output_dir / 'images' / video_path.stem
+    images_output_dir.mkdir(parents=True, exist_ok=True)
+
+    ffmpeg_command = [
+        'ffmpeg',
+        '-i', str(video_path),
+        '-vf', 'fps=25',
+        str(images_output_dir / '%04d.png')
+    ]
+
+    try:
+        print(f"Running command: {' '.join(ffmpeg_command)}")
+        subprocess.run(ffmpeg_command, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error converting video to images: {e}")
+        raise
+
+    return images_output_dir
+
+
+def get_union_mask(masks):
+    union_mask = None
+    for mask in masks:
+        if union_mask is None:
+            union_mask = mask
+        else:
+            union_mask = np.maximum(union_mask, mask)
+
+    if union_mask is not None:
+        # Find the bounding box of the non-zero regions in the mask
+        rows = np.any(union_mask, axis=1)
+        cols = np.any(union_mask, axis=0)
+        try:
+            ymin, ymax = np.where(rows)[0][[0, -1]]
+            xmin, xmax = np.where(cols)[0][[0, -1]]
+        except Exception as e:
+            print(str(e))
+            return 0.0
+
+        # Set bounding box area to white
+        union_mask[ymin: ymax + 1, xmin: xmax + 1] = np.max(union_mask)
+
+    return union_mask
