@@ -145,25 +145,29 @@ class TalkingVideoDataset(Dataset):
         )
         self.attn_transform_64 = transforms.Compose(
             [
-                transforms.Resize((64,64)),
+                transforms.Resize(
+                    (self.img_size[0] // 8, self.img_size[0] // 8)),
                 transforms.ToTensor(),
             ]
         )
         self.attn_transform_32 = transforms.Compose(
             [
-                transforms.Resize((32, 32)),
+                transforms.Resize(
+                    (self.img_size[0] // 16, self.img_size[0] // 16)),
                 transforms.ToTensor(),
             ]
         )
         self.attn_transform_16 = transforms.Compose(
             [
-                transforms.Resize((16, 16)),
+                transforms.Resize(
+                    (self.img_size[0] // 32, self.img_size[0] // 32)),
                 transforms.ToTensor(),
             ]
         )
         self.attn_transform_8 = transforms.Compose(
             [
-                transforms.Resize((8, 8)),
+                transforms.Resize(
+                    (self.img_size[0] // 64, self.img_size[0] // 64)),
                 transforms.ToTensor(),
             ]
         )

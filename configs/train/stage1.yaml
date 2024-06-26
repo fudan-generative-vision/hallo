@@ -1,0 +1,63 @@
+data:
+  train_bs: 8
+  train_width: 512
+  train_height: 512
+  meta_paths:
+    - "./data/HDTF_meta.json"
+  # Margin of frame indexes between ref and tgt images
+  sample_margin: 30
+
+solver:
+  gradient_accumulation_steps: 1
+  mixed_precision: "no"
+  enable_xformers_memory_efficient_attention: True
+  gradient_checkpointing: False
+  max_train_steps: 30000
+  max_grad_norm: 1.0
+  # lr
+  learning_rate: 1.0e-5
+  scale_lr: False
+  lr_warmup_steps: 1
+  lr_scheduler: "constant"
+
+  # optimizer
+  use_8bit_adam: False
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  adam_weight_decay: 1.0e-2
+  adam_epsilon: 1.0e-8
+
+val:
+  validation_steps: 500
+
+noise_scheduler_kwargs:
+  num_train_timesteps: 1000
+  beta_start: 0.00085
+  beta_end: 0.012
+  beta_schedule: "scaled_linear"
+  steps_offset: 1
+  clip_sample: false
+
+base_model_path: "./pretrained_models/stable-diffusion-v1-5/"
+vae_model_path: "./pretrained_models/sd-vae-ft-mse"
+face_analysis_model_path: "./pretrained_models/face_analysis"
+
+weight_dtype: "fp16" # [fp16, fp32]
+uncond_ratio: 0.1
+noise_offset: 0.05
+snr_gamma: 5.0
+enable_zero_snr: True
+face_locator_pretrained: False
+
+seed: 42
+resume_from_checkpoint: "latest"
+checkpointing_steps: 500
+exp_name: "stage1"
+output_dir: "./exp_output"
+
+ref_image_paths:
+  - "examples/reference_images/1.jpg"
+
+mask_image_paths:
+  - "examples/masks/1.png"
+
