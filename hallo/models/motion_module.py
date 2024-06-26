@@ -507,6 +507,7 @@ class VersatileAttention(Attention):
     def set_use_memory_efficient_attention_xformers(
         self,
         use_memory_efficient_attention_xformers: bool,
+        attention_op = None,
     ):
         """
         Sets the use of memory-efficient attention xformers for the VersatileAttention class.
