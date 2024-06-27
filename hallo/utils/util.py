@@ -850,7 +850,8 @@ def compute_snr(noise_scheduler, timesteps):
     snr = (alpha / sigma) ** 2
     return snr
 
-def extract_audio_from_videos(video_path: Path, output_dir: Path) -> Path:
+
+def extract_audio_from_videos(video_path: Path, audio_output_path: Path) -> Path:
     """
     Extract audio from a video file and save it as a WAV file.
 
@@ -867,10 +868,6 @@ def extract_audio_from_videos(video_path: Path, output_dir: Path) -> Path:
     Raises:
         subprocess.CalledProcessError: If the ffmpeg command fails to execute.
     """
-    audio_output_dir = output_dir / 'audios'
-    audio_output_dir.mkdir(parents=True, exist_ok=True)
-    audio_output_path = audio_output_dir / f'{video_path.stem}.wav'
-
     ffmpeg_command = [
         'ffmpeg', '-y',
         '-i', str(video_path),
@@ -906,14 +903,11 @@ def convert_video_to_images(video_path: Path, output_dir: Path) -> Path:
     Raises:
         subprocess.CalledProcessError: If the ffmpeg command fails to execute.
     """
-    images_output_dir = output_dir / 'images' / video_path.stem
-    images_output_dir.mkdir(parents=True, exist_ok=True)
-
     ffmpeg_command = [
         'ffmpeg',
         '-i', str(video_path),
         '-vf', 'fps=25',
-        str(images_output_dir / '%04d.png')
+        str(output_dir / '%04d.png')
     ]
 
     try:
@@ -923,10 +917,22 @@ def convert_video_to_images(video_path: Path, output_dir: Path) -> Path:
         print(f"Error converting video to images: {e}")
         raise
 
-    return images_output_dir
+    return output_dir
 
 
 def get_union_mask(masks):
+    """
+    Compute the union of a list of masks.
+
+    This function takes a list of masks and computes their union by taking the maximum value at each pixel location.
+    Additionally, it finds the bounding box of the non-zero regions in the mask and sets the bounding box area to white.
+
+    Args:
+        masks (list of np.ndarray): List of masks to be combined.
+
+    Returns:
+        np.ndarray: The union of the input masks.
+    """
     union_mask = None
     for mask in masks:
         if union_mask is None:
@@ -949,3 +955,26 @@ def get_union_mask(masks):
         union_mask[ymin: ymax + 1, xmin: xmax + 1] = np.max(union_mask)
 
     return union_mask
+
+
+def move_final_checkpoint(save_dir, module_dir, prefix):
+    """
+    Move the final checkpoint file to the save directory.
+
+    This function identifies the latest checkpoint file based on the given prefix and moves it to the specified save directory.
+
+    Args:
+        save_dir (str): The directory where the final checkpoint file should be saved.
+        module_dir (str): The directory containing the checkpoint files.
+        prefix (str): The prefix used to identify checkpoint files.
+
+    Raises:
+        ValueError: If no checkpoint files are found with the specified prefix.
+    """
+    checkpoints = os.listdir(module_dir)
+    checkpoints = [d for d in checkpoints if d.startswith(prefix)]
+    checkpoints = sorted(
+        checkpoints, key=lambda x: int(x.split("-")[1].split(".")[0])
+    )
+    shutil.copy2(os.path.join(
+        module_dir, checkpoints[-1]), os.path.join(save_dir, prefix + '.pth'))

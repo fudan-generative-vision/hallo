@@ -53,8 +53,8 @@ from hallo.models.unet_2d_condition import UNet2DConditionModel
 from hallo.models.unet_3d import UNet3DConditionModel
 from hallo.utils.util import (compute_snr, delete_additional_ckpt,
                               import_filename, init_output_dir,
-                              load_checkpoint, save_checkpoint,
-                              seed_everything)
+                              load_checkpoint, move_final_checkpoint,
+                              save_checkpoint, seed_everything)
 
 warnings.filterwarnings("ignore")
 
@@ -747,6 +747,12 @@ def train_stage1_process(cfg: argparse.Namespace) -> None:
             progress_bar.set_postfix(**logs)
 
             if global_step >= cfg.solver.max_train_steps:
+                # process final module weight for stage2
+                if accelerator.is_main_process:
+                    move_final_checkpoint(save_dir, module_dir, "reference_unet")
+                    move_final_checkpoint(save_dir, module_dir, "imageproj")
+                    move_final_checkpoint(save_dir, module_dir, "denoising_unet")
+                    move_final_checkpoint(save_dir, module_dir, "face_locator")
                 break
 
     accelerator.wait_for_everyone()

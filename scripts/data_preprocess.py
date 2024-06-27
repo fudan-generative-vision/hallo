@@ -60,7 +60,7 @@ def process_single_video(video_path: Path,
                          output_dir: Path,
                          image_processor: ImageProcessorForDataProcessing,
                          audio_processor: AudioProcessor,
-                         gpu_status: bool) -> None:
+                         step: int) -> None:
     """
     Process a single video file.
 
@@ -76,15 +76,22 @@ def process_single_video(video_path: Path,
     logging.info(f"Processing video: {video_path}")
 
     try:
-        if not gpu_status:
-            images_dir = convert_video_to_images(video_path, output_dir)
-            logging.info(f"Images saved to: {images_dir}")
+        if step == 1:
+            images_output_dir = output_dir / 'images' / video_path.stem
+            images_output_dir.mkdir(parents=True, exist_ok=True)
+            images_output_dir = convert_video_to_images(
+                video_path, images_output_dir)
+            logging.info(f"Images saved to: {images_output_dir}")
 
-            audio_path = extract_audio_from_videos(video_path, output_dir)
-            logging.info(f"Audio extracted to: {audio_path}")
+            audio_output_dir = output_dir / 'audios'
+            audio_output_dir.mkdir(parents=True, exist_ok=True)
+            audio_output_path = audio_output_dir / f'{video_path.stem}.wav'
+            audio_output_path = extract_audio_from_videos(
+                video_path, audio_output_path)
+            logging.info(f"Audio extracted to: {audio_output_path}")
 
             face_mask, _, sep_pose_mask, sep_face_mask, sep_lip_mask = image_processor.preprocess(
-                images_dir)
+                images_output_dir)
             cv2.imwrite(
                 str(dirs["face_mask"] / f"{video_path.stem}.png"), face_mask)
             cv2.imwrite(str(dirs["sep_pose_mask"] /
@@ -106,7 +113,7 @@ def process_single_video(video_path: Path,
         logging.error(f"Failed to process video {video_path}: {e}")
 
 
-def process_all_videos(input_video_list: List[Path], output_dir: Path, gpu_status: bool) -> None:
+def process_all_videos(input_video_list: List[Path], output_dir: Path, step: int) -> None:
     """
     Process all videos in the input list.
 
@@ -128,14 +135,14 @@ def process_all_videos(input_video_list: List[Path], output_dir: Path, gpu_statu
         os.path.dirname(audio_separator_model_file),
         os.path.basename(audio_separator_model_file),
         os.path.join(output_dir, "vocals"),
-    ) if gpu_status else None
+    ) if step==2 else None
 
     image_processor = ImageProcessorForDataProcessing(
-        face_analysis_model_path, landmark_model_path, gpu_status)
+        face_analysis_model_path, landmark_model_path, step)
 
     for video_path in tqdm(input_video_list, desc="Processing videos"):
         process_single_video(video_path, output_dir,
-                             image_processor, audio_processor, gpu_status)
+                             image_processor, audio_processor, step)
 
 
 def get_video_paths(source_dir: Path, parallelism: int, rank: int) -> List[Path]:
@@ -163,8 +170,8 @@ if __name__ == "__main__":
                         required=True, help="Directory containing videos")
     parser.add_argument("-o", "--output_dir", type=Path,
                         help="Directory to save results, default is parent dir of input dir")
-    parser.add_argument("-g", "--gpu_status", action='store_true',
-                        help="Run tasks requiring GPU or tasks not requiring GPU")
+    parser.add_argument("-s", "--step", type=int, default=1,
+                        help="Specify data processing step 1 or 2, you should run 1 and 2 sequently")
     parser.add_argument("-p", "--parallelism", default=1,
                         type=int, help="Level of parallelism")
     parser.add_argument("-r", "--rank", default=0, type=int,
@@ -181,4 +188,4 @@ if __name__ == "__main__":
     if not video_path_list:
         logging.warning("No videos to process.")
     else:
-        process_all_videos(video_path_list, args.output_dir, args.gpu_status)
+        process_all_videos(video_path_list, args.output_dir, args.step)

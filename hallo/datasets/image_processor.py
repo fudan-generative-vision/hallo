@@ -240,8 +240,8 @@ class ImageProcessorForDataProcessing():
         __exit__(_exc_type, _exc_val, _exc_tb):
             Exits a runtime context and handles any exceptions that occurred during the processing.
     """
-    def __init__(self, face_analysis_model_path, landmark_model_path, gpu_status) -> None:
-        if gpu_status:
+    def __init__(self, face_analysis_model_path, landmark_model_path, step) -> None:
+        if step == 2:
             self.face_analysis = FaceAnalysis(
                 name="",
                 root=face_analysis_model_path,
