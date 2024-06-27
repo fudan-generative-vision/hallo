@@ -98,7 +98,7 @@ start_ratio: 0.05
 noise_offset: 0.05
 snr_gamma: 5.0
 enable_zero_snr: True
-stage1_ckpt_dir: "./pretrained_models/hallo/stage1"
+stage1_ckpt_dir: "./exp_output/stage1/"
 
 single_inference_times: 10
 inference_steps: 40
@@ -107,7 +107,7 @@ cfg_scale: 3.5
 seed: 42
 resume_from_checkpoint: "latest"
 checkpointing_steps: 500
-exp_name: "stage2_test"
+exp_name: "stage2"
 output_dir: "./exp_output"
 
 ref_img_path:
