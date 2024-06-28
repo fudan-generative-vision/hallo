@@ -65,6 +65,7 @@ Explore [more examples](https://fudan-generative-vision.github.io/hallo).
 
 ## 📰 News
 
+- **`2024/06/28`**: 🎉🎉🎉 We are proud to announce the release of our model training code. Try your own training data. Here is [tutorial](#training).
 - **`2024/06/21`**: 🚀🚀🚀 Cloned a Gradio demo on [🤗Huggingface space](https://huggingface.co/spaces/fudan-generative-ai/hallo).
 - **`2024/06/20`**: 🌟🌟🌟 Received numerous contributions from the community, including a [Windows version](https://github.com/sdbds/hallo-for-windows), [ComfyUI](https://github.com/AIFSH/ComfyUI-Hallo), [WebUI](https://github.com/fudan-generative-vision/hallo/pull/51), and [Docker template](https://github.com/ashleykleynhans/hallo-docker).
 - **`2024/06/15`**: ✨✨✨ Released some images and audios for inference testing on [🤗Huggingface](https://huggingface.co/datasets/fudan-generative-ai/hallo_inference_samples).
@@ -339,8 +340,8 @@ For more settings, refer to the [Accelerate documentation](https://huggingface.c
 | :----: | :---------------------------------------------------------------------------------------------------- | :--------: |
 |   ✅   | **[Inference source code meet everyone on GitHub](https://github.com/fudan-generative-vision/hallo)** | 2024-06-15 |
 |   ✅   | **[Pretrained models on Huggingface](https://huggingface.co/fudan-generative-ai/hallo)**              | 2024-06-15 |
-| 🚀 | **[Improving the model's performance on Mandarin Chinese]()**                                                    |    2024-06-25     |
-| 🚀 | **[Releasing data preparation and training scripts]()**                                                | 2024-06-28 |
+| ✅ | **[Releasing data preparation and training scripts](#training)**                                                | 2024-06-28 |
+| 🚀 | **[Improving the model's performance on Mandarin Chinese]()**                                                    |    TBD     |
 
 <details>
 <summary>Other Enhancements</summary>
