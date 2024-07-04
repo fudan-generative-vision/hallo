@@ -21,6 +21,8 @@ import json
 import os
 from pathlib import Path
 
+import torch
+
 
 def collect_video_folder_paths(root_path: Path) -> list:
     """
@@ -50,6 +52,10 @@ def construct_meta_info(frames_dir_path: Path) -> dict:
 
     if not os.path.exists(mask_path):
         print(f"Mask path not found: {mask_path}")
+        return None
+
+    if torch.load(face_emb_path) is None:
+        print(f"Face emb is None: {face_emb_path}")
         return None
 
     return {
