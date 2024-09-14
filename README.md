@@ -82,6 +82,7 @@ Explore the resources developed by our community to enhance your experience with
 - [ComfyUI-Hallo](https://github.com/AIFSH/ComfyUI-Hallo) - Integrate Hallo with the ComfyUI tool by [@AIFSH](https://github.com/AIFSH).
 - [hallo-docker](https://github.com/ashleykleynhans/hallo-docker) - Docker image for Hallo by [@ashleykleynhans](https://github.com/ashleykleynhans).
 - [RunPod Template](https://runpod.io/console/deploy?template=aeyibwyvzy&ref=2xxro4syy) - Deploy Hallo to RunPod by [@ashleykleynhans](https://github.com/ashleykleynhans).
+- [JoyHallo](https://jdh-algo.github.io/JoyHallo/) - JoyHallo extends the capabilities of Hallo, enabling it to support Mandarin
 
 Thanks to all of them.
 
