@@ -1,0 +1,105 @@
+# VersaFace Evaluation Configuration
+# Follows Hallo protocol with extensions for motion/expression evaluation
+
+# === Dataset Conventions ===
+data:
+  # Standard resolution (matches Hallo)
+  width: 512
+  height: 512
+  # Dev resolution for fast iteration
+  dev_width: 256
+  dev_height: 256
+
+  # Temporal settings (matches Hallo)
+  fps: 25
+  n_sample_frames: 14  # Canonical clip length
+  sample_rate: 16000   # Audio sample rate
+
+  # Face processing
+  face_expand_ratio: 1.2
+  face_detect_size: 640
+
+  # Identity split
+  train_split_ratio: 0.9
+  test_split_ratio: 0.1
+  split_seed: 42  # Deterministic splits
+
+# === Dataset Paths ===
+datasets:
+  hdtf:
+    root: "./data/HDTF"
+    manifest: "./data/manifests/hdtf_test.jsonl"
+    identity_split: "./data/splits/hdtf_identities.json"
+
+  celebv:
+    root: "./data/CelebV"
+    manifest: "./data/manifests/celebv_test.jsonl"
+    identity_split: "./data/splits/celebv_identities.json"
+
+  wild:
+    root: "./data/OpenHumanVid"
+    manifest: "./data/manifests/wild_test.jsonl"
+    identity_split: "./data/splits/wild_identities.json"
+
+# === Metric Configuration ===
+metrics:
+  fid:
+    enabled: true
+    # Frame sampling for FID computation
+    sample_mode: "uniform"  # "all" or "uniform"
+    n_samples_per_clip: 8   # If uniform sampling
+    batch_size: 64
+
+  fvd:
+    enabled: true
+    backbone: "i3d"  # I3D pretrained on Kinetics
+    n_frames: 14     # Must match clip length
+    batch_size: 16
+
+  sync:
+    enabled: true
+    # SyncNet configuration
+    model: "syncnet_v2"
+    # Outputs both Sync-C (confidence) and Sync-D (distance)
+
+  efid:
+    enabled: true
+    # Expression FID using 3DMM parameters
+    encoder: "emoca"  # or "deca"
+    parameters: ["expression", "jaw"]  # Which 3DMM params to use
+    batch_size: 32
+
+# === Stress Slices ===
+stress_slices:
+  silent:
+    enabled: true
+    # VAD threshold for detecting silence
+    vad_threshold: 0.1
+    min_silence_duration: 0.5  # seconds
+
+  non_english:
+    enabled: true
+    # Language ID model
+    lid_model: "whisper"
+    target_languages: ["en"]  # Everything NOT in this list
+
+  async:
+    enabled: true
+    # Audio shift amounts for desync testing
+    shift_amounts: [-0.5, -0.25, 0.25, 0.5]  # seconds
+
+# === Output Configuration ===
+output:
+  base_dir: "./eval_outputs"
+  # Per-run structure:
+  # {base_dir}/{run_name}/{dataset}/{sample_id}/
+  #   gen.mp4
+  #   gen_frames/
+  #   audio.wav
+  #   meta.json
+
+# === Compute Configuration ===
+compute:
+  device: "cuda"
+  num_workers: 8
+  seed: 42
