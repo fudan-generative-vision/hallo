@@ -1,0 +1,103 @@
+# VersaFace Autoencoder Configuration
+# Based on Hallo architecture with VersaFace extensions
+
+# VAE Configuration
+vae:
+  pretrained: "stabilityai/sd-vae-ft-mse"
+  scale_factor: 0.18215
+  latent_channels: 4
+  spatial_scale: 8  # 8x spatial compression
+
+# Face Encoder Configuration
+face_encoder:
+  # InsightFace settings
+  face_analysis_model: "buffalo_l"
+  embedding_dim: 512
+
+  # Image projection settings
+  proj_tokens: 4  # Number of context tokens
+  cross_attention_dim: 1024
+
+# Audio Encoder Configuration
+audio_encoder:
+  model: "facebook/wav2vec2-base-960h"
+  sample_rate: 16000
+
+  # wav2vec2 feature settings
+  feature_dim: 768
+  num_layers: 12
+
+  # Audio projection settings
+  seq_len: 5  # Audio windows per video frame
+  proj_tokens: 32  # Context tokens per frame
+  intermediate_dim: 512
+
+# Face Locator Configuration
+face_locator:
+  conditioning_channels: 3
+  conditioning_embedding_channels: 320
+  # Progressive channel sizes
+  block_out_channels: [16, 32, 64, 128]
+
+# UNet3D Configuration
+unet:
+  in_channels: 4
+  out_channels: 4
+
+  # Attention settings
+  cross_attention_dim: 1024
+  attention_head_dim: 8
+
+  # Block channel sizes
+  block_out_channels: [320, 640, 1280, 1280]
+
+  # Motion module settings
+  motion_module_resolutions: [1, 2, 4, 8]
+  motion_num_attention_heads: 8
+  motion_max_seq_length: 32
+
+  # Reference attention
+  reference_attention_mode: "full"  # "full", "middle", "none"
+
+# Training Configuration
+training:
+  # Stage 1: Static image training
+  stage1:
+    enabled: true
+    steps: 50000
+    learning_rate: 1.0e-5
+    audio_conditioning: false
+    motion_module_training: false
+
+  # Stage 2: Audio-driven animation
+  stage2:
+    enabled: true
+    steps: 100000
+    learning_rate: 1.0e-5
+    audio_conditioning: true
+    motion_module_training: true
+
+# Inference Configuration
+inference:
+  # Diffusion settings
+  num_inference_steps: 40
+  guidance_scale: 3.5
+
+  # Video settings
+  fps: 25
+  n_frames: 14
+  resolution: [512, 512]
+
+  # Control weights
+  pose_weight: 1.0
+  face_weight: 1.0
+  lip_weight: 1.0
+
+  # Seed for reproducibility
+  seed: 42
+
+# Device Configuration
+device:
+  accelerator: "cuda"
+  dtype: "float16"  # float16 or float32
+  mixed_precision: true
