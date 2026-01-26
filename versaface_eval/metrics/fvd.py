@@ -3,10 +3,34 @@ FVD (Fréchet Video Distance) calculator.
 
 Computes video-level distributional distance using I3D features.
 
+Definition:
+    FVD = ||μ_r - μ_g||² + Tr(Σ_r + Σ_g - 2(Σ_r Σ_g)^(1/2))
+    Same formula as FID but using I3D video features instead of Inception image features.
+
 Implementation follows:
 - Uses I3D pretrained on Kinetics-400
 - Fixed clip length (must match between gen and GT)
-- Matches pytorch-fvd conventions
+- Features from final pooling layer (typically 400-dim or 2048-dim)
+
+Verified Implementations (recommended for publishable results):
+1. ragor114/PyTorch-Frechet-Video-Distance - Pure PyTorch
+   https://github.com/ragor114/PyTorch-Frechet-Video-Distance
+
+2. cd-fvd (PyPI) - CVPR 2024, addresses content bias
+   pip install cd-fvd
+   https://github.com/universome/fvd-comparison
+
+3. JunyaoHu/common_metrics_on_video_quality
+   https://github.com/JunyaoHu/common_metrics_on_video_quality
+
+Sources:
+- FVD Paper (ICLR 2019): https://openreview.net/pdf?id=rylgEULtdN
+- Google Research FVD: https://github.com/google-research/google-research/tree/master/frechet_video_distance
+
+⚠️ KNOWN ISSUES:
+1. FVD is sensitive to content bias from I3D training data (Kinetics-400)
+2. "Frozen" videos (single frame repeated) may get misleadingly low FVD
+3. Recommend using FVD alongside temporal metrics for complete evaluation
 """
 
 from typing import Optional, List
@@ -219,5 +243,14 @@ class FVDCalculator(MetricCalculator):
                 "n_gt_clips": len(self.gt_features),
                 "n_frames": self.n_frames,
                 "feature_dim": gen_feats.shape[1],
+                "note": (
+                    "FVD is sensitive to content bias from I3D training data. "
+                    "Consider supplementing with temporal consistency metrics."
+                ),
+                "verified_implementations": [
+                    "ragor114/PyTorch-Frechet-Video-Distance",
+                    "cd-fvd (PyPI, CVPR 2024)",
+                    "JunyaoHu/common_metrics_on_video_quality",
+                ],
             },
         )

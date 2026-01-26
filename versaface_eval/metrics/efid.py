@@ -3,12 +3,41 @@ E-FID (Expression FID) calculator.
 
 Computes FID in expression/face parameter space rather than pixel/inception space.
 
+Definition:
+    E-FID measures expression semantic fidelity by quantifying the distribution
+    difference of facial expression features between generated and real videos.
+    Uses the same Fréchet distance formula as FID/FVD.
+
 Uses 3DMM (3D Morphable Model) parameters to extract expression embeddings:
-- Expression coefficients
-- Jaw pose
+- Expression coefficients (50-dim in FLAME model)
+- Jaw pose (3-dim)
 - Optionally: eye gaze, head pose
 
 Implementation supports EMOCA, DECA, or similar face reconstruction models.
+
+⚠️ UNCERTAINTY NOTE:
+The exact E-FID definition varies across papers and is NOT standardized.
+Hallo paper does not specify their exact computation method.
+
+Options found in literature:
+1. 3DMM Expression Parameters (our default): Use FLAME/3DMM expression
+   coefficients (50-dim) + jaw pose (3-dim) = 53-dim features
+2. Expression Recognition Features: Use features from an expression
+   classification network (e.g., AffectNet-trained)
+3. Emotion Features: Use emotion embedding from emotion recognition model
+
+We chose 3DMM-based approach as it is most commonly referenced in
+talking-face papers (MF-ETalk, etc).
+
+Typical Values (from MF-ETalk paper, MDPI 2024):
+- MEAD dataset: E-FID ≈ 2.403
+- HDTF dataset: E-FID ≈ 3.127
+
+Sources:
+- MF-ETalk (MDPI 2024): https://www.mdpi.com/2079-9292/14/13/2684
+  "Expression-FID (E-FID) measures expression semantic fidelity by
+   quantifying the distribution difference of facial expression features
+   between generated and real videos"
 """
 
 from typing import Optional, List, Dict, Any
@@ -333,6 +362,14 @@ class EFIDCalculator(MetricCalculator):
                 "sample_mode": self.sample_mode,
                 "n_samples_per_clip": self.n_samples_per_clip,
                 "feature_dim": gen_feats.shape[1],
+                "warning": (
+                    "E-FID definition is not standardized across papers. "
+                    "Our implementation uses {} features. "
+                    "Results may not be directly comparable to other papers."
+                ).format(
+                    "3DMM expression parameters (53-dim)" if self.encoder_type in ["emoca", "deca"]
+                    else "ResNet features (2048-dim, less ideal for expression comparison)"
+                ),
             },
         )
 

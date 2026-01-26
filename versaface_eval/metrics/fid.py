@@ -3,10 +3,25 @@ FID (Fréchet Inception Distance) calculator.
 
 Computes frame-level FID between generated and ground truth video frames.
 
+Definition:
+    FID = ||μ_r - μ_g||² + Tr(Σ_r + Σ_g - 2(Σ_r Σ_g)^(1/2))
+
+Where:
+    - μ_r, Σ_r = mean and covariance of real image features
+    - μ_g, Σ_g = mean and covariance of generated image features
+    - Features extracted from InceptionV3 pool3 layer (2048-dim)
+
+Direction: Lower is better (0 = identical distributions)
+
 Implementation follows:
 - Uses InceptionV3 features (2048-dim from pool3 layer)
 - Frame sampling policy: uniform or all frames
 - Matches clean-fid conventions for reproducibility
+
+Sources:
+- FID Wikipedia: https://en.wikipedia.org/wiki/Fr%C3%A9chet_inception_distance
+- PyTorch-Metrics FID: https://lightning.ai/docs/torchmetrics/stable/image/frechet_inception_distance.html
+- Original Paper: "GANs Trained by a Two Time-Scale Update Rule..."
 """
 
 from typing import Optional, List, Union
