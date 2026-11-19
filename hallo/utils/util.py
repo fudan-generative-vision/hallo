@@ -666,11 +666,9 @@ def get_sep_face_mask(file_path1, file_path2, output_file_path):
     print(f"Processed and saved: {output_file_path}")
 
 def resample_audio(input_audio_file: str, output_audio_file: str, sample_rate: int):
-    p = subprocess.Popen([
+    subprocess.run([
         "ffmpeg", "-y", "-v", "error", "-i", input_audio_file, "-ar", str(sample_rate), output_audio_file
-    ])
-    ret = p.wait()
-    assert ret == 0, "Resample audio failed!"
+    ], check=True)
     return output_audio_file
 
 def get_face_region(image_path: str, detector):
